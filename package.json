@@ -1,0 +1,12 @@
+{
+  "name": "heroku_deploy_nodeapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sql_database_api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
