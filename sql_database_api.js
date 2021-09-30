@@ -20,7 +20,7 @@ const mysql = require('mysql');
 
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
 
     res.send("Hello World!");
     console.log("Hello World!");
@@ -155,7 +155,7 @@ app.put('/modify/:superadmin', (req, res) => {
         }
 )
   
-
-app.listen('8000', () => {
+let port = process.env.port || '8000';
+app.listen(port, () => {
     console.log('Server started on port 8000');
 })
