@@ -6,7 +6,7 @@ var db = mysql.createConnection({
     host     : '51.79.171.35',
     port     :  888,
     user: "SMSGateway",
-    password: "khan#1",
+    password: "khan#128_awais",
     database: "smsgateway"
 });
 
