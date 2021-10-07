@@ -10,14 +10,14 @@ var db = mysql.createPool({
     database: "smsgateway"
 });
 
-db.connect(function (err) {
-    if (err) console.log("DB Disconnected!");
-    console.log("Connected!");
-    // db.query("CREATE DATABASE mydb", function (err, result) {
-    //   if (err) throw err;
-    //   console.log("Database created");
-    // });
-});
+// db.connect(function (err) {
+//     if (err) console.log("DB Disconnected!");
+//     console.log("Connected!");
+//     // db.query("CREATE DATABASE mydb", function (err, result) {
+//     //   if (err) throw err;
+//     //   console.log("Database created");
+//     // });
+// });
 
 const app = express();
 app.use(bodyParser.json());
