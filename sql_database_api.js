@@ -3,7 +3,8 @@ const mysql = require('mysql');
 
 
 var db = mysql.createConnection({
-    host: "http://51.79.171.35:888",
+    host     : '51.79.171.35',
+    port     :  888,
     user: "SMSGateway",
     password: "khan#1",
     database: "smsgateway"
