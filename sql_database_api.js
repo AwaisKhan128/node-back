@@ -2,7 +2,7 @@ const express = require('express'), bodyParser = require('body-parser');;
 const mysql = require('mysql');
 
 
-var db = mysql.createPool({
+var db = mysql.createConnection({
     host     : '51.79.171.35',
     port     :  888,
     user: "SMSGateway",
@@ -10,14 +10,14 @@ var db = mysql.createPool({
     database: "smsgateway"
 });
 
-// db.connect(function (err) {
-//     if (err) console.log("DB Disconnected!");
-//     console.log("Connected!");
-//     // db.query("CREATE DATABASE mydb", function (err, result) {
-//     //   if (err) throw err;
-//     //   console.log("Database created");
-//     // });
-// });
+db.connect(function (err) {
+    if (err) console.log("DB Disconnected!");
+    console.log("Connected!");
+    // db.query("CREATE DATABASE mydb", function (err, result) {
+    //   if (err) throw err;
+    //   console.log("Database created");
+    // });
+});
 
 const app = express();
 app.use(bodyParser.json());
@@ -79,6 +79,7 @@ app.get('/select/permissions', (req, res) => {
 
     $request = req.query.id;
     $request1 = req.query.status;
+    res.setHeader("Content-Type", "text/html");
 
     if (($request != null || undefined) ) 
     {
