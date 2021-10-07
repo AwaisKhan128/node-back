@@ -2,7 +2,7 @@ const express = require('express'), bodyParser = require('body-parser');;
 const mysql = require('mysql');
 
 
-var db = mysql.createConnection({
+var db = mysql.createPool({
     host     : '51.79.171.35',
     port     :  888,
     user: "SMSGateway",
