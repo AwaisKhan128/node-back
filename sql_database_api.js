@@ -79,7 +79,7 @@ app.get('/select/permissions', (req, res) => {
 
     $request = req.query.id;
     $request1 = req.query.status;
-    res.setHeader("Content-Type", "text/html");
+    res.header('Something', 'else');
 
     if (($request != null || undefined) ) 
     {
