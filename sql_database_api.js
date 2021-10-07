@@ -250,26 +250,34 @@ app.get('/select/:superadmin', (req, res) => {
 
     $request = req.query.id;
     $request1 = req.params.superadmin;
-
-    if ($request != null || undefined) {
-        let sql = "SELECT * FROM " + $request1 + " WHERE id = " + $request;
-        db.query(sql, (err, result) => {
-            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+    db.connect(function (err) {
+        if (err) console.log("DB Disconnected!");
+        console.log("Connected!");
+        // db.query("CREATE DATABASE mydb", function (err, result) {
+        //   if (err) throw err;
+        //   console.log("Database created");
+        // });
+        if ($request != null || undefined) {
+            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + $request;
+            db.query(sql, (err, result) => {
+                if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                res.send(JSON.stringify({
+                    http_code: 200
+                    , http_response: result
+                }));
+    
+            })
+        }
+    
+        else {
             res.send(JSON.stringify({
                 http_code: 200
-                , http_response: result
-            }));
+                , http_response: 'id missing or not defined?'
+            })
+            );
+        }
+    });
 
-        })
-    }
-
-    else {
-        res.send(JSON.stringify({
-            http_code: 200
-            , http_response: 'id missing or not defined?'
-        })
-        );
-    }
 
 
 }
