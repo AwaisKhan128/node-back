@@ -11,23 +11,25 @@ var db = mysql.createConnection({
     database: "nodemysql"
 });
 
-db.connect(function (err) {
-    if (err) 
-    {
+handleDisconnect();
 
-        throw err;
-    }
-    else{
+// db.connect(function (err) {
+//     if (err) 
+//     {
 
-        console.log("Connected!");
-    }
+//         throw err;
+//     }
+//     else{
+
+//         console.log("Connected!");
+//     }
 
     
-    // db.query("CREATE DATABASE mydb", function (err, result) {
-    //   if (err) throw err;
-    //   console.log("Database created");
-    // });
-});
+//     // db.query("CREATE DATABASE mydb", function (err, result) {
+//     //   if (err) throw err;
+//     //   console.log("Database created");
+//     // });
+// });
 
 const app = express();
 app.use(bodyParser.json());
@@ -543,7 +545,7 @@ function handleDisconnect() {
     });
   }
   
-  handleDisconnect();
+
 
 
   
