@@ -14,7 +14,7 @@ db.connect(function (err) {
     if (err) 
     {
 
-        console.log("Not Connected !");
+        throw err;
     }
     else{
 
