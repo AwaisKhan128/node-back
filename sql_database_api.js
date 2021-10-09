@@ -532,6 +532,23 @@ app.listen(
     '0.0.0.0',
     function () {
         console.log("Server started.......");
+        db.connect(function (err) {
+            if (err) 
+            {
+        
+                throw err;
+            }
+            else{
+        
+                console.log("Connected!");
+            }
+        
+            
+            // db.query("CREATE DATABASE mydb", function (err, result) {
+            //   if (err) throw err;
+            //   console.log("Database created");
+            // });
+        });
     }
 );
 
