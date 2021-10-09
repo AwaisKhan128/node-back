@@ -2,14 +2,19 @@ const express = require('express'), bodyParser = require('body-parser');;
 const mysql = require('mysql');
 
 
-var db = mysql.createConnection({
+// var db = mysql.createConnection({
+
+// });
+
+var db = {
     host     : '51.79.171.35',
     port     :  827,
     path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
     user: "sms_Gateways",
     password: "khan.awais#123",
     database: "nodemysql"
-});
+
+}
 
 handleDisconnect();
 
