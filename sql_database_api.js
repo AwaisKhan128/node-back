@@ -5,18 +5,41 @@ const mysql = require('mysql');
 // var db = mysql.createConnection({
 
 // });
+var db;
 
-var db = {
-    host     : '51.79.171.35',
-    port     :  827,
-    path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
+var db_config = {
+    host     : 'localhost',
+    // path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
     user: "sms_Gateways",
     password: "khan.awais#123",
-    database: "nodemysql"
-
+    database: "nodemysql",
+    
 }
 
-handleDisconnect();
+// handleDisconnect();
+
+
+
+function handleDisconnect(req,res) {
+    db = mysql.createConnection(db_config); // Recreate the connection, since
+                                                    // the old one cannot be reused.                                            
+    db.connect(function(err) {              // The server is either down
+      if(err) {                                     // or restarting (takes a while sometimes).
+        console.log('error when connecting to db:', err);
+        res.send('error when connecting to db:', err);
+        setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+      }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+    db.on('error', function(err) {
+      console.log('db error', err);
+      if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+        handleDisconnect();                         // lost due to either server restart, or a
+      } else {                                      // connnection idle timeout (the wait_timeout
+        throw err;                                  // server variable configures this)
+      }
+    });
+  }
 
 // db.connect(function (err) {
 //     if (err) 
@@ -39,12 +62,16 @@ handleDisconnect();
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/connect', (req, res) => {
+
+    handleDisconnect(req,res);
+})
+
 app.get('/', (req, res) => {
 
     res.send(JSON.stringify({ http_code: 200, http_response: 'Hello World' }));
     console.log("Hello World!");
 })
-
 
 
 // ----------Permissions--------------
@@ -100,6 +127,7 @@ app.get('/select/permissions', (req, res) => {
 
     if (($request != null || undefined) ) 
     {
+        
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
         db.query(sql, (err, result) => {
@@ -529,26 +557,9 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
 }
 )
 
-function handleDisconnect() {
-    connection = mysql.createConnection(db); // Recreate the connection, since
-                                                    // the old one cannot be reused.
-  
-    connection.connect(function(err) {              // The server is either down
-      if(err) {                                     // or restarting (takes a while sometimes).
-        console.log('error when connecting to db:', err);
-        setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-      }                                     // to avoid a hot loop, and to allow our node script to
-    });                                     // process asynchronous requests in the meantime.
-                                            // If you're also serving http, display a 503 error.
-    connection.on('error', function(err) {
-      console.log('db error', err);
-      if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-        handleDisconnect();                         // lost due to either server restart, or a
-      } else {                                      // connnection idle timeout (the wait_timeout
-        throw err;                                  // server variable configures this)
-      }
-    });
-  }
+
+
+
   
 
 
