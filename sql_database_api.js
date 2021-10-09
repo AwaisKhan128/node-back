@@ -2,11 +2,7 @@ const express = require('express'), bodyParser = require('body-parser');;
 const mysql = require('mysql');
 
 
-var db = mysql.createPool({
-    connectionLimit : 1000,
-    connectTimeout  : 60 * 60 * 1000,
-    acquireTimeout  : 60 * 60 * 1000,
-    timeout         : 60 * 60 * 1000,
+var db = mysql.createConnection({
     host     : '51.79.171.35',
     port     :  827,
     user: "sms_Gateways",
@@ -14,21 +10,18 @@ var db = mysql.createPool({
     database: "nodemysql"
 });
 
-// db.connect(function (err) {
-//     if (err) console.log("DB Disconnected!");
-//     console.log("Connected!");
+db.connect(function (err) {
+    if (err) console.log("DB Disconnected!");
+    console.log("Connected!");
     
-//     // db.query("CREATE DATABASE mydb", function (err, result) {
-//     //   if (err) throw err;
-//     //   console.log("Database created");
-//     // });
-// });
+    // db.query("CREATE DATABASE mydb", function (err, result) {
+    //   if (err) throw err;
+    //   console.log("Database created");
+    // });
+});
 
 const app = express();
 app.use(bodyParser.json());
-
-
-
 
 app.get('/', (req, res) => {
 
@@ -85,79 +78,63 @@ app.post('/insert/permissions/:Acc_holder', (req, res) => {
 
 app.get('/select/permissions', (req, res) => {
 
-    db.getConnection(function(err,connection)
+    $request = req.query.id;
+    $request1 = req.query.status;
+    // res.setHeader("Content-Type", "text/html");
+
+    if (($request != null || undefined) ) 
     {
-    
-        if (err)
-        {
-            // connection.release();
-            console.log(err);
-        }
-        else
-        {
-            console.log("Connection Success");
-            $request = req.query.id;
-            $request1 = req.query.status;
-            // res.setHeader("Content-Type", "text/html");
-        
-            if (($request != null || undefined) ) 
+
+        let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
+        db.query(sql, (err, result) => {
+            if (err) 
             {
-        
-                let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
-                connection.query(sql, (err, result) => {
-                    if (err) 
-                    {
-        
-                        connection.release();
-                        res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-                    }
-                    else
-                    {
-        
-                        res.json(JSON.stringify({
-                            http_code: 200
-                            , http_response: result
-                        }));
-                    }
-        
-                })
-        
+
+                res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
             }
-        
-            else if (($request1 != null || undefined) ) {
-        
-                let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
-                connection.query(sql, (err, result) => {
-                    if (err)
-                    {
-                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-                    } 
-                    else{
-        
-                        res.send(JSON.stringify({
-                            http_code: 200
-                            , http_response: result
-                        }));
-                    }
-                        
-        
-                })
-        
-            }
-            
             else
             {
-        
+
+                res.json(JSON.stringify({
+                    http_code: 200
+                    , http_response: result
+                }));
+            }
+
+        })
+
+    }
+
+    else if (($request1 != null || undefined) ) {
+
+        let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
+        db.query(sql, (err, result) => {
+            if (err)
+            {
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            } 
+            else{
+
                 res.send(JSON.stringify({
                     http_code: 200
-                    , http_response: 'id missing or status not defined?'
-                })
-                );
+                    , http_response: result
+                }));
             }
+                
+
+        })
+
+    }
     
-        }
-    
-    });
+    else
+    {
+
+        res.send(JSON.stringify({
+            http_code: 200
+            , http_response: 'id missing or status not defined?'
+        })
+        );
+    }
     
 
 
