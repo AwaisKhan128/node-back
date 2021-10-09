@@ -4,10 +4,10 @@ const mysql = require('mysql');
 
 var db = mysql.createConnection({
     host     : '51.79.171.35',
-    port     :  888,
-    user: "SMSGateway",
-    password: "khan#128_awais",
-    database: "smsgateway"
+    port     :  827,
+    user: "sms_Gateways",
+    password: "khan.awais#123",
+    database: "nodemysql"
 });
 
 db.connect(function (err) {
@@ -86,8 +86,8 @@ app.get('/select/permissions', (req, res) => {
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
         db.query(sql, (err, result) => {
-            if (err) res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-            res.json(JSON.stringify({
+            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            res.send(JSON.stringify({
                 http_code: 200
                 , http_response: result
             }));
@@ -100,8 +100,8 @@ app.get('/select/permissions', (req, res) => {
 
         let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
         db.query(sql, (err, result) => {
-            if (err) res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-            res.json(JSON.stringify({
+            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            res.send(JSON.stringify({
                 http_code: 200
                 , http_response: result
             }));
@@ -250,34 +250,27 @@ app.get('/select/:superadmin', (req, res) => {
 
     $request = req.query.id;
     $request1 = req.params.superadmin;
-    db.connect(function (err) {
-        if (err) console.log("DB Disconnected!");
-        console.log("Connected!");
-        // db.query("CREATE DATABASE mydb", function (err, result) {
-        //   if (err) throw err;
-        //   console.log("Database created");
-        // });
-        if ($request != null || undefined) {
-            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + $request;
-            db.query(sql, (err, result) => {
-                if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-                res.send(JSON.stringify({
-                    http_code: 200
-                    , http_response: result
-                }));
     
-            })
-        }
     
-        else {
+    if ($request != null || undefined) {
+        let sql = "SELECT * FROM " + $request1 + " WHERE id = " + $request;
+        db.query(sql, (err, result) => {
+            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
             res.send(JSON.stringify({
                 http_code: 200
-                , http_response: 'id missing or not defined?'
-            })
-            );
-        }
-    });
+                , http_response: result
+            }));
 
+        })
+    }
+
+    else {
+        res.send(JSON.stringify({
+            http_code: 200
+            , http_response: 'id missing or not defined?'
+        })
+        );
+    }
 
 
 }
