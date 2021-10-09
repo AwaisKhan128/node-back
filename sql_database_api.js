@@ -5,10 +5,10 @@ const mysql = require('mysql');
 var db = mysql.createConnection({
     host     : '51.79.171.35',
     port     :  827,
+    path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
     user: "sms_Gateways",
     password: "khan.awais#123",
-    database: "nodemysql",
-    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
+    database: "nodemysql"
 });
 
 db.connect(function (err) {
@@ -522,6 +522,28 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
 }
 )
 
+function handleDisconnect() {
+    connection = mysql.createConnection(db); // Recreate the connection, since
+                                                    // the old one cannot be reused.
+  
+    connection.connect(function(err) {              // The server is either down
+      if(err) {                                     // or restarting (takes a while sometimes).
+        console.log('error when connecting to db:', err);
+        setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+      }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+    connection.on('error', function(err) {
+      console.log('db error', err);
+      if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+        handleDisconnect();                         // lost due to either server restart, or a
+      } else {                                      // connnection idle timeout (the wait_timeout
+        throw err;                                  // server variable configures this)
+      }
+    });
+  }
+  
+  handleDisconnect();
 
 
   
@@ -533,23 +555,23 @@ app.listen(
     '0.0.0.0',
     function () {
         console.log("Server started.......");
-        db.connect(function (err) {
-            if (err) 
-            {
+        // db.connect(function (err) {
+        //     if (err) 
+        //     {
         
-                throw err;
-            }
-            else{
+        //         throw err;
+        //     }
+        //     else{
         
-                console.log("Connected!");
-            }
+        //         console.log("Connected!");
+        //     }
         
             
-            // db.query("CREATE DATABASE mydb", function (err, result) {
-            //   if (err) throw err;
-            //   console.log("Database created");
-            // });
-        });
+        //     // db.query("CREATE DATABASE mydb", function (err, result) {
+        //     //   if (err) throw err;
+        //     //   console.log("Database created");
+        //     // });
+        // });
     }
 );
 
