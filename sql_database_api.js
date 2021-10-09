@@ -13,6 +13,7 @@ var db = mysql.createConnection({
 db.connect(function (err) {
     if (err) console.log("DB Disconnected!");
     console.log("Connected!");
+    
     // db.query("CREATE DATABASE mydb", function (err, result) {
     //   if (err) throw err;
     //   console.log("Database created");
@@ -89,12 +90,12 @@ app.get('/select/permissions', (req, res) => {
             if (err) 
             {
 
-                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
             }
             else
             {
 
-                res.send(JSON.stringify({
+                res.json(JSON.stringify({
                     http_code: 200
                     , http_response: result
                 }));
