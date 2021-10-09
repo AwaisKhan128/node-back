@@ -389,11 +389,18 @@ app.get('/message/:message_path', (req, res) => {
         if (id != null || undefined) {
             let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id;
             db.query(sql, (err, result) => {
-                if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-                res.send(JSON.stringify({
-                    http_code: 200
-                    , http_response: result
-                }));
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
 
             })
         }
