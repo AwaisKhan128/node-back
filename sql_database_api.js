@@ -86,12 +86,19 @@ app.get('/select/permissions', (req, res) => {
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
         db.query(sql, (err, result) => {
-            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-            res.send(JSON.stringify({
-                http_code: 200
-                , http_response: result
-            }));
-            res.end();
+            if (err) 
+            {
+
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            }
+            else
+            {
+
+                res.send(JSON.stringify({
+                    http_code: 200
+                    , http_response: result
+                }));
+            }
 
         })
 
@@ -101,11 +108,18 @@ app.get('/select/permissions', (req, res) => {
 
         let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
         db.query(sql, (err, result) => {
-            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-            res.send(JSON.stringify({
-                http_code: 200
-                , http_response: result
-            }));
+            if (err)
+            {
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            } 
+            else{
+
+                res.send(JSON.stringify({
+                    http_code: 200
+                    , http_response: result
+                }));
+            }
+                
 
         })
 
