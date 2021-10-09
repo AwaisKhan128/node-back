@@ -11,8 +11,16 @@ var db = mysql.createConnection({
 });
 
 db.connect(function (err) {
-    if (err) console.log("DB Disconnected!");
-    console.log("Connected!");
+    if (err) 
+    {
+
+        console.log("Not Connected !");
+    }
+    else{
+
+        console.log("Connected!");
+    }
+
     
     // db.query("CREATE DATABASE mydb", function (err, result) {
     //   if (err) throw err;
