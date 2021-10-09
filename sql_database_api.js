@@ -91,6 +91,7 @@ app.get('/select/permissions', (req, res) => {
                 http_code: 200
                 , http_response: result
             }));
+            res.end();
 
         })
 
