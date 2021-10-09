@@ -7,7 +7,8 @@ var db = mysql.createConnection({
     port     :  827,
     user: "sms_Gateways",
     password: "khan.awais#123",
-    database: "nodemysql"
+    database: "nodemysql",
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
 });
 
 db.connect(function (err) {
