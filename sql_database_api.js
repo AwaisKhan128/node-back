@@ -86,7 +86,7 @@ app.get('/select/permissions', (req, res) => {
     
         if (err)
         {
-            connection.release();
+            // connection.release();
             console.log(err);
         }
         else
