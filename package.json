@@ -1,10 +1,11 @@
 {
-  "name": "heroku_deploy_nodeapi",
+  "name": "sql_database_api",
   "version": "1.0.0",
   "description": "",
   "main": "sql_database_api.js",
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env production"
+    "start": "node sql_database_api"
+    
   },
   "keywords": [],
   "author": "",

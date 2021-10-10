@@ -6,27 +6,28 @@ const mysql = require('mysql');
 
 // });
 var db;
-
+const hostname = 'remotemysql.com';
+const port = 3306;
 var db_config = {
-    host     : 'localhost',
+    host     : hostname,
     // path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
-    user: "sms_Gateways",
-    password: "khan.awais#123",
-    database: "nodemysql",
+    user: "jHws6qKKFc",
+    password: "wgGYuNRC9T",
+    database: "jHws6qKKFc"
+
     
 }
 
-// handleDisconnect();
+handleDisconnect();
 
 
 
-function handleDisconnect(req,res) {
+function handleDisconnect() {
     db = mysql.createConnection(db_config); // Recreate the connection, since
                                                     // the old one cannot be reused.                                            
     db.connect(function(err) {              // The server is either down
       if(err) {                                     // or restarting (takes a while sometimes).
-        console.log('error when connecting to db:', err);
-        res.send('error when connecting to db:', err);
+        console.log('error when connecting to db:');
         setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
       }                                     // to avoid a hot loop, and to allow our node script to
     });                                     // process asynchronous requests in the meantime.
@@ -62,10 +63,10 @@ function handleDisconnect(req,res) {
 const app = express();
 app.use(bodyParser.json());
 
-app.get('/connect', (req, res) => {
+// app.get('/connect', (req, res) => {
 
-    handleDisconnect(req,res);
-})
+//     handleDisconnect(req,res);
+// })
 
 app.get('/', (req, res) => {
 
@@ -572,7 +573,7 @@ app.listen(
     PORT,
     '0.0.0.0',
     function () {
-        console.log("Server started.......");
+        console.log("Server started......."+hostname+" "+port);
         // db.connect(function (err) {
         //     if (err) 
         //     {
