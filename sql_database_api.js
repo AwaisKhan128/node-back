@@ -63,6 +63,11 @@ function handleDisconnect() {
 const app = express();
 app.use(bodyParser.json());
 
+var cors = require('cors');
+
+// use it before all route definitions
+app.use(cors({origin: '*'}));
+
 // app.get('/connect', (req, res) => {
 
 //     handleDisconnect(req,res);
@@ -128,7 +133,7 @@ app.get('/select/permissions', (req, res) => {
 
     if (($request != null || undefined) ) 
     {
-        res.setHeader("Access-Control-Allow-Origin", "*")
+        // res.setHeader("Access-Control-Allow-Origin", "*")
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
         db.query(sql, (err, result) => {
@@ -151,7 +156,7 @@ app.get('/select/permissions', (req, res) => {
     }
 
     else if (($request1 != null || undefined) ) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        // res.setHeader("Access-Control-Allow-Origin", "*");
 
         let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
         db.query(sql, (err, result) => {
