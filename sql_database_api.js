@@ -128,12 +128,7 @@ app.get('/select/permissions', (req, res) => {
 
     if (($request != null || undefined) ) 
     {
-        res.setHeader({"Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Origin": "*"})
-
-            
-        
+        res.setHeader("Access-Control-Allow-Origin", "*")
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
         db.query(sql, (err, result) => {
@@ -156,9 +151,7 @@ app.get('/select/permissions', (req, res) => {
     }
 
     else if (($request1 != null || undefined) ) {
-        res.setHeader({"Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Origin": "*"})
+        res.setHeader("Access-Control-Allow-Origin", "*");
 
         let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
         db.query(sql, (err, result) => {
