@@ -128,6 +128,11 @@ app.get('/select/permissions', (req, res) => {
 
     if (($request != null || undefined) ) 
     {
+        res.setHeader({"Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Origin": "*"})
+
+            
         
 
         let sql = "SELECT * FROM " + "permissions" + " WHERE id = " + $request;
@@ -151,6 +156,9 @@ app.get('/select/permissions', (req, res) => {
     }
 
     else if (($request1 != null || undefined) ) {
+        res.setHeader({"Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Origin": "*"})
 
         let sql = "SELECT * FROM " + "permissions " + "WHERE status = '" + $request1+"'";
         db.query(sql, (err, result) => {
@@ -508,7 +516,6 @@ app.post('/subscribe/:device', (req, res) => {
 
 
 
-
 // Auto Email Sender....
 app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
     // var count = Object.keys(requested_body)
@@ -559,13 +566,6 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
 )
 
 
-
-
-  
-
-
-
-  
 
 
 const PORT = process.env.PORT || 3000
