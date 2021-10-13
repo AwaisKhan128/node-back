@@ -7,7 +7,9 @@ const mysql = require('mysql');
 // });
 var db;
 const hostname = 'remotemysql.com';
-const port = 3306;
+// const hostname = 'localhost';
+
+const port = 3000;
 var db_config = {
     host     : hostname,
     // path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
@@ -15,8 +17,15 @@ var db_config = {
     password: "wgGYuNRC9T",
     database: "jHws6qKKFc"
 
-    
 }
+// var db_config = {
+//     host     : hostname,
+//     // path :'/phpmyadmin_70ad85ca0dd8b62f/db_structure.php?server=1&db=nodemysql',
+//     user: "root",
+//     password: "",
+//     database: "nodemysql"
+
+// }
 
 handleDisconnect();
 
@@ -479,7 +488,7 @@ app.post('/subscribe/:device', (req, res) => {
         if (Object.keys(obj).length < 5) {
             res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
         }
-        else if (Object.keys(obj).length === 5) {
+        else if (Object.keys(obj).length === 7) {
             {
                 let sql = "INSERT INTO "
                     + $request1 + "(id,username,imei,imsi,phone,device,country) VALUES("
@@ -509,6 +518,146 @@ app.post('/subscribe/:device', (req, res) => {
     }
 }
 )
+
+app.get('/subscribe/:device', (req, res) => {
+    let id = req.query.id;
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices') {
+        if (id != null || undefined) {
+            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+
+            })
+        }
+        else {
+            res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+        }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
+
+
+// --------Subscriber each sim info------
+app.post('/subscribe/sim/:device', (req, res) => {
+    let requested_body = req.body;
+    // var count = Object.keys(requested_body)
+    let obj = new Object(requested_body);
+    $request1 = req.params.device;
+
+    if ($request1 == 'subscribe_devices_info') {
+        if (Object.keys(obj).length < 5) {
+            res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
+        }
+        else if (Object.keys(obj).length === 8) {
+            {
+                let sql = "INSERT INTO "
+                    + $request1 + "(id,sim,number,balance,model,android_ver,imei,imsi) VALUES("
+                    + requested_body.id + ",'" + requested_body.sim + "','"
+                    + requested_body.number + "','" + requested_body.balance + "','"
+                    + requested_body.model + "','"
+                    + requested_body.android_ver + "','"
+                    + requested_body.imei + "','"
+                    + requested_body.imsi + "')";
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+
+                })
+            }
+        }
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
+
+app.get('/subscribe/sim/:device', (req, res) => {
+    let id = req.query.id;
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices_info') {
+        if (id != null || undefined) {
+            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+
+            })
+        }
+        else {
+            res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+        }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
+
+app.put('/subscribe/sim/:device', (req, res) => { // Only for balance update
+
+    $request1 = req.params.device;
+    $request2 = req.query.id;
+    $request4 = req.query.balance;
+    
+
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices_info')
+
+    {
+    let sql = "UPDATE " + $request1 + " SET balance = '" + $request4 + "' WHERE id = " + $request2 + ";";
+    db.query(sql, (err, result) => {
+        if (err) {
+            res.send(JSON.stringify({ http_code: 400, http_response: err }));
+        }
+        else {
+            res.send(JSON.stringify({ http_code: 200, http_response: result }));
+        }
+
+    })
+
+    }
+
+}
+)
+
 
 // ----------------------------
 
