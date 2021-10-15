@@ -84,7 +84,7 @@ app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
 
-    res.send(JSON.stringify({ http_code: 200, http_response: 'Hello World' }));
+    res.sendStatus(200).send(JSON.stringify({ http_code: 200, http_response: 'Hello World' }));
     console.log("Hello World!");
 })
 
@@ -554,6 +554,7 @@ app.get('/subscribe/:device', (req, res) => {
 )
 
 
+
 // --------Subscriber each sim info------
 app.post('/subscribe/sim/:device', (req, res) => {
     let requested_body = req.body;
@@ -659,8 +660,52 @@ app.put('/subscribe/sim/:device', (req, res) => { // Only for balance update
 )
 
 
-// ----------------------------
+// ------Auto Email Verification----------
+app.post('/sendverification/:email/:api', (req, res) => {
+    // var count = Object.keys(requested_body)
+    
+    $request1 = req.params.email; //email
+    $request2 = req.params.api; //code
 
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        secure: false,
+        auth: {
+            user: 'livenewsofficials@gmail.com',
+            pass: 'Myyahooacc-1Saen'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    var mailOptions = {
+        from: 'nor-reply@smsgateways.com',
+        to: $request1,
+        subject: 'Welcome to our SMS Gateway ',
+        text: '<h1> Welcome to SMS Gateway Providers </h1> <p> Your Verification Code is.  \n' +
+            '.....' +
+            'Code : ' + $request2 + '\n' +
+            '</p>'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.send(JSON.stringify({
+                response_msg: "Verification Email Sent success"
+            })
+            )
+        }
+    });
+
+
+}
+)
 
 
 // Auto Email Sender....
