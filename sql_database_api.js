@@ -84,7 +84,7 @@ app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
 
-    res.sendStatus(200).send(JSON.stringify({ http_code: 200, http_response: 'Hello World' }));
+    res.send(JSON.stringify({ http_code: 200, http_response: 'Hello World' }));
     console.log("Hello World!");
 })
 
