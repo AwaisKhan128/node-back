@@ -569,7 +569,7 @@ app.post('/subscribe/sim/:device', (req, res) => {
         else if (Object.keys(obj).length > 1) {
             {
                 let sql = "INSERT INTO "
-                    + $request1 + "(id,sim,number,balance,date,time,sim_Status,success,delay,phone_Status,top_up,android_ver,imei) VALUES("
+                    + $request1 + "(id,sim,number,balance,date,time,sim_Status,success,delay,phone_Status,top_up,android_ver,device,imei) VALUES("
                     + requested_body.id + ",'" + requested_body.sim + "','"
                     + requested_body.number + "','" + requested_body.balance + "','"
                     + requested_body.date + "','"
@@ -580,6 +580,7 @@ app.post('/subscribe/sim/:device', (req, res) => {
                     + requested_body.phone_status + "','"
                     + requested_body.top_up + "','"
                     + requested_body.android_ver + "','"
+                    + requested_body.device + "','"
                     + requested_body.imei + "')";
                 db.query(sql, (err, result) => {
                     if (err) {
