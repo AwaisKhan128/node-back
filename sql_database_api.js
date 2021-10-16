@@ -563,10 +563,10 @@ app.post('/subscribe/sim/:device', (req, res) => {
     $request1 = req.params.device;
 
     if ($request1 == 'subscribe_devices_info') {
-        if (Object.keys(obj).length < 13) {
+        if (Object.keys(obj).length < 1) {
             res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
         }
-        else if (Object.keys(obj).length === 13) {
+        else if (Object.keys(obj).length > 1) {
             {
                 let sql = "INSERT INTO "
                     + $request1 + "(id,sim,number,balance,date,time,sim_Status,success,delay,phone_Status,top_up,android_ver,imei) VALUES("
