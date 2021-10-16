@@ -775,10 +775,10 @@ const { EventEmitter } = require('stream');
 const emit = new EventEmitter();
 
 
-const Router = express();
+// const Router = express();
 // sets event listener
 
-Router.get('/webhook/', (req, res) => {
+app.get('/webhook/', (req, res) => {
     emit.emit('chat', req.body)
     res.status(200).send('success '+req.body);
     // res.send(JSON.stringify(req.body))
