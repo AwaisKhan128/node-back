@@ -647,11 +647,11 @@ app.put('/subscribe/sim/:device/:number', (req, res) => { // Only for all update
     
     {
     let sql = "UPDATE " + $request1 + " SET balance = '" 
-    + requested_body.balance + ",date="+requested_body.date
-    + ",time="+requested_body.time + ",delay="+requested_body.delay + 
-    ",phone_Status="+requested_body.phone_status +
-     ",success="+requested_body.success + ",sim_Status="+requested_body.sim_status
-    +"' WHERE number = " + $request2 + ";";
+    + requested_body.balance + "',date= '"+requested_body.date
+    + "',time='"+requested_body.time + "',delay='"+requested_body.delay + 
+    "',phone_Status='"+requested_body.phone_status +
+     "',success='"+requested_body.success + "',sim_Status='"+requested_body.sim_status
+    +"' WHERE number = '" + $request2 + "';";
 
     db.query(sql, (err, result) => {
         if (err) {
