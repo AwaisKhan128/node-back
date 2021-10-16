@@ -767,6 +767,29 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
 }
 )
 
+// ------Webhooks----
+const { EventEmitter } = require('stream');
+
+// const { Server } = require("./lib/socket.io");
+// const emit = new Server();
+const emit = new EventEmitter();
+
+
+const Router = express();
+// sets event listener
+
+Router.post('/webhook/', (req, res) => {
+    emit.emit('chat', req.body)
+    res.status(200).send('success '+req.body);
+    // res.send(JSON.stringify(req.body))
+});
+
+
+emit.on('chat', function(requestBody) {
+    // Do what you want
+    console.log("Working "+requestBody);    
+});
+
 
 const PORT = process.env.PORT || 3000
 app.listen(
