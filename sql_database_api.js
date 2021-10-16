@@ -563,19 +563,24 @@ app.post('/subscribe/sim/:device', (req, res) => {
     $request1 = req.params.device;
 
     if ($request1 == 'subscribe_devices_info') {
-        if (Object.keys(obj).length < 5) {
+        if (Object.keys(obj).length < 13) {
             res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
         }
-        else if (Object.keys(obj).length === 8) {
+        else if (Object.keys(obj).length === 13) {
             {
                 let sql = "INSERT INTO "
-                    + $request1 + "(id,sim,number,balance,model,android_ver,imei,imsi) VALUES("
+                    + $request1 + "(id,sim,number,balance,date,time,sim_Status,success,delay,phone_Status,top_up,android_ver,imei) VALUES("
                     + requested_body.id + ",'" + requested_body.sim + "','"
                     + requested_body.number + "','" + requested_body.balance + "','"
-                    + requested_body.model + "','"
+                    + requested_body.date + "','"
+                    + requested_body.time + "','"
+                    + requested_body.sim_status + "','"
+                    + requested_body.success + "','"
+                    + requested_body.delay + "','"
+                    + requested_body.phone_status + "','"
+                    + requested_body.top_up + "','"
                     + requested_body.android_ver + "','"
-                    + requested_body.imei + "','"
-                    + requested_body.imsi + "')";
+                    + requested_body.imei + "')";
                 db.query(sql, (err, result) => {
                     if (err) {
                         // console.log(err);
@@ -632,18 +637,22 @@ app.get('/subscribe/sim/:device', (req, res) => {
 }
 )
 
-app.put('/subscribe/sim/:device', (req, res) => { // Only for balance update
+app.put('/subscribe/sim/:device/:number', (req, res) => { // Only for all update
 
-    $request1 = req.params.device;
-    $request2 = req.query.id;
-    $request4 = req.query.balance;
-    
+    $request2 = req.params.number;
+    let requested_body = req.body;
 
     $request1 = req.params.device;
     if ($request1 == 'subscribe_devices_info')
-
+    
     {
-    let sql = "UPDATE " + $request1 + " SET balance = '" + $request4 + "' WHERE id = " + $request2 + ";";
+    let sql = "UPDATE " + $request1 + " SET balance = '" 
+    + requested_body.balance + ",date="+requested_body.date
+    + ",time="+requested_body.time + ",delay="+requested_body.delay + 
+    ",phone_Status="+requested_body.phone_status +
+     ",success="+requested_body.success + ",sim_Status="+requested_body.sim_status
+    +"' WHERE number = " + $request2 + ";";
+
     db.query(sql, (err, result) => {
         if (err) {
             res.send(JSON.stringify({ http_code: 400, http_response: err }));
@@ -756,8 +765,6 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
 
 }
 )
-
-
 
 
 const PORT = process.env.PORT || 3000
