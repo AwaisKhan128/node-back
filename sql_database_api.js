@@ -790,6 +790,43 @@ emit.on('chat', function(requestBody) {
     console.log("Working "+requestBody);    
 });
 
+const token = 'ar23o8v77'; // type here your verification token
+
+
+
+app.get('/webget', (req, res) => {
+    // check if verification token is correct
+    if (req.query.token !== token) {
+        return res.sendStatus(401);
+    }
+
+    // return challenge
+    return res.end(req.query.challenge);
+});
+
+
+app.post('/webpost', (req, res) => {
+    // check if verification token is correct
+    if (req.query.token !== token) {
+        return res.sendStatus(401);
+    }
+
+    // print request body
+    console.log(req.body);
+
+    // return a text response
+    const data = {
+        responses: [
+            {
+                type: 'text',
+                elements: ['Hi', 'Hello']
+            }
+        ]
+    };
+
+    res.json(data);
+});
+
 
 const PORT = process.env.PORT || 3000
 app.listen(
