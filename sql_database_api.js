@@ -561,7 +561,7 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
     let $request2 = req.query.id;
     $request1 = req.params.device;
     if ($request1 == 'subscribe_devices_info')
-    username,imei,imsi,phone,device,country
+    
     {
     let sql = "UPDATE " + $request1 + " SET username = '" 
     + requested_body.username + "',imei= '"+requested_body.imei
