@@ -477,6 +477,8 @@ app.get('/message/:message_path', (req, res) => {
 )
 
 
+
+
 // -------Subscribers----------
 app.post('/subscribe/:device', (req, res) => {
     let requested_body = req.body;
@@ -552,6 +554,38 @@ app.get('/subscribe/:device', (req, res) => {
     }
 }
 )
+
+app.put('/subscribe/:device', (req, res) => { // Only for all update
+
+    let requested_body = req.body;
+    let $request2 = req.query.id;
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices_info')
+    username,imei,imsi,phone,device,country
+    {
+    let sql = "UPDATE " + $request1 + " SET username = '" 
+    + requested_body.username + "',imei= '"+requested_body.imei
+    + "',imsi='"+requested_body.imsi + "',phone='"+requested_body.phone + 
+    "',device='"+requested_body.device +
+     "',country='"+requested_body.country 
+    +"' WHERE id = '" + $request2 + "';";
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            res.send(JSON.stringify({ http_code: 400, http_response: err }));
+        }
+        else {
+            res.send(JSON.stringify({ http_code: 200, http_response: result }));
+        }
+
+    })
+
+    }
+
+}
+)
+
+
 
 
 
