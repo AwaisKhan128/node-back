@@ -560,7 +560,7 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
     let requested_body = req.body;
     let $request2 = req.query.id;
     $request1 = req.params.device;
-    if ($request1 == 'subscribe_devices_info')
+    if ($request1 == 'subscribe_devices')
     
     {
     let sql = "UPDATE " + $request1 + " SET username = '" 
