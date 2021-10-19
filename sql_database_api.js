@@ -676,7 +676,9 @@ app.get('/subscribe/sim/:device', (req, res) => {
     {
         if (opcode != null || undefined) 
         {
-            let sql = "SELECT number FROM " + $request1 ;
+            // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
+
+            let sql = "SELECT number FROM " + $request1 +" WHERE number LIKE '"+opcode+"%' "   ;
             db.query(sql, (err, result) => {
                 if (err) 
                 {
@@ -685,18 +687,20 @@ app.get('/subscribe/sim/:device', (req, res) => {
                 }
                 else{
 
-                    var filtered = [];
+                    var filtered = [{},{},{}];
+                    
 
+                    // let data = JSON.parse(JSON.stringify(result));
+                    // let number = result ;
 
-                    // let number = JSON.parse(result);
                     // let b = number.filter(e=>
                     //     {
-                    //         number.substr(0,5)== opcode
+                    //         e.substr(0,5)== opcode
                     //     })
 
                     res.send(JSON.stringify({
-                        http_code: 200
-                        , http_response: 123
+                         http_code: 200
+                        ,http_response: result
                     }));
 
 
@@ -1022,6 +1026,9 @@ server.listen(
         // });
     }
 );
+
+
+
 
 
 
