@@ -451,7 +451,7 @@ app.get('/operators/sim/:device', (req, res) => {
 )
 
 
-// -------------- Post Operator Balance ----
+// -------------- Operator Balance ----
 app.post('/insert/accounts/:operator_balance', (req, res) => {
 
     $request1 = req.params.operator_balance;
@@ -573,6 +573,289 @@ app.get('/select/:type/:operator_balance', (req, res) => {
 }
 )
 
+app.put('/modify/accounts/:operator_balance', (req, res) => {
+
+    $request1 = req.params.operator_balance;
+    $request2 = req.query.opcode;
+
+
+    let requested_body = req.body;
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
+
+    if (count>0)
+    {
+
+        if ($request1 == 'operator_balance') 
+        {
+            {
+                let sql = "UPDATE " + $request1 + " SET ussd = '" 
+                + requested_body.ussd + "' , sms_number = '" 
+                + requested_body.sms_number + "',sms = '" 
+                + requested_body.sms + "',receive_format = '" 
+                + requested_body.receive_format + "',max_inquiry = '" 
+                + requested_body.max_inquiry + "',mode = '" 
+                + requested_body.mode+ "' WHERE operator_code = " + $request2 + ";";
+
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+        }
+        else
+        {
+            res.send({http_code:401,http_response:"path required"})
+        }
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+
+app.delete('remove/accounts/:operator_balance',(req,res)=>
+{
+    $request1 = req.params.operator_balance;
+    $request2 = req.query.opcode;
+
+    if ($request1 =='operator_balance' && $request2 !=null)
+    {
+        let sql = "DELETE FROM "+$request1+"' WHERE operator_code = "+$request2;
+        db.query(sql, (err, result) => {
+            if (err) {
+                // console.log(err);
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+            }
+            else {
+                // console.log(result);
+
+                res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            }
+
+        });
+    }
+    else{
+        res.send(JSON.stringify({ http_code: 400, http_response: 'Error in path or id ' + err }));
+
+    }
+}
+
+)
+
+// --------------- 
+// -------------- Operator Number ----
+app.post('/insert/accounts/:operator_number', (req, res) => {
+
+    $request1 = req.params.operator_number;
+
+    let requested_body = req.body;
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
+
+    if (count>0)
+    {
+
+        if ($request1 == 'operator_number') {
+            {
+                let sql = "INSERT INTO "
+                    + $request1 +
+                    "(operator_code,ussd,sms_number,sms,receive_format,max_inquiry,mode) VALUES('"
+                    + requested_body.operator_code + "','" + requested_body.ussd + "','" 
+                    + requested_body.sms_number + "','" + requested_body.sms + "','" 
+                    + requested_body.receive_format + "','" + requested_body.max_inquiry + "','" 
+                    + requested_body.mode + "')";
+    
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+            
+        }
+        else
+        {
+            res.send({http_code:401,http_response:"path required"})
+        }
+
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+
+app.get('/select/:type/:operator_number', (req, res) => {
+    let opcode = req.query.opcode;
+    $request1 = req.params.operator_number;
+    $request2 = req.params.type;
+
+    if ($request1 == 'operator_number') 
+    {
+        if (opcode != null || undefined) 
+        {
+            // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
+
+            if ($request2=='ussd')
+            {
+                let sql = "SELECT ussd,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code = "+opcode   ;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+    
+                        res.send(JSON.stringify({
+                             http_code: 200
+                            ,http_response: result
+                        }));
+    
+    
+                        
+    
+    
+    
+                    }
+    
+                })
+
+            }
+            else if ($request2 == 'sms')
+            {
+                let sql = "SELECT sms_number,sms,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code = "+opcode  ;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+    
+                        res.send(JSON.stringify({
+                             http_code: 200
+                            ,http_response: result
+                        }));
+
+                    }
+    
+                })
+            }
+
+
+        }
+            
+            else {
+                res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
+
+app.put('/modify/accounts/:operator_number', (req, res) => {
+
+    $request1 = req.params.operator_number;
+    $request2 = req.query.opcode;
+
+
+    let requested_body = req.body;
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
+
+    if (count>0)
+    {
+
+        if ($request1 == 'operator_number') 
+        {
+            {
+                let sql = "UPDATE " + $request1 + " SET ussd = '" 
+                + requested_body.ussd + "' , sms_number = '" 
+                + requested_body.sms_number + "',sms = '" 
+                + requested_body.sms + "',receive_format = '" 
+                + requested_body.receive_format + "',max_inquiry = '" 
+                + requested_body.max_inquiry + "',mode = '" 
+                + requested_body.mode+ "' WHERE operator_code = " + $request2 + ";";
+
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+        }
+        else
+        {
+            res.send({http_code:401,http_response:"path required"})
+        }
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+
+app.delete('remove/accounts/:operator_number',(req,res)=>
+{
+    $request1 = req.params.operator_number;
+    $request2 = req.query.opcode;
+
+    if ($request1 =='operator_number' && $request2 !=null)
+    {
+        let sql = "DELETE FROM "+$request1+"' WHERE operator_code = "+$request2;
+        db.query(sql, (err, result) => {
+            if (err) {
+                // console.log(err);
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+            }
+            else {
+                // console.log(result);
+
+                res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            }
+
+        });
+    }
+    else{
+        res.send(JSON.stringify({ http_code: 400, http_response: 'Error in path or id ' + err }));
+
+    }
+}
+
+)
+
+// --------------- 
 
 
 
