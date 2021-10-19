@@ -393,9 +393,185 @@ app.get('/select/accounts/:operators_list', (req, res) => {
 }
 )
 
+// --------------Get All Numbers---------------
+app.get('/operators/sim/:device', (req, res) => {
+    let opcode = req.query.opcode;
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices_info') 
+    {
+        if (opcode != null || undefined) 
+        {
+            // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
 
-// ----------------Operator Number-----------
+            let sql = "SELECT number FROM " + $request1 +" WHERE number LIKE '"+opcode+"%' "   ;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
 
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+
+                    var filtered = [{},{},{}];
+                    
+
+                    // let data = JSON.parse(JSON.stringify(result));
+                    // let number = result ;
+
+                    // let b = number.filter(e=>
+                    //     {
+                    //         e.substr(0,5)== opcode
+                    //     })
+
+                    res.send(JSON.stringify({
+                         http_code: 200
+                        ,http_response: result
+                    }));
+
+
+                    
+
+
+
+                }
+
+            })
+        }
+            
+            else {
+                res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
+
+
+// -------------- Post Operator Balance ----
+app.post('/insert/accounts/:operator_balance', (req, res) => {
+
+    $request1 = req.params.operator_balance;
+
+    let requested_body = req.body;
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
+
+    if (count>0)
+    {
+
+        if ($request1 == 'operator_balance') {
+            {
+                let sql = "INSERT INTO "
+                    + $request1 +
+                    "(operator_code,ussd,sms_number,sms,receive_format,max_inquiry,mode) VALUES('"
+                    + requested_body.operator_code + "','" + requested_body.ussd + "','" 
+                    + requested_body.sms_number + "','" + requested_body.sms + "','" 
+                    + requested_body.receive_format + "','" + requested_body.max_inquiry + "','" 
+                    + requested_body.mode + "')";
+    
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+            
+        }
+        else
+        {
+            res.send({http_code:401,http_response:"path required"})
+        }
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+
+app.get('/select/:type/:operator_balance', (req, res) => {
+    let opcode = req.query.opcode;
+    $request1 = req.params.operator_balance;
+    $request2 = req.params.type;
+
+    if ($request1 == 'operator_balance') 
+    {
+        if (opcode != null || undefined) 
+        {
+            // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
+
+            if ($request2=='ussd')
+            {
+                let sql = "SELECT ussd,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code == "+opcode   ;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+    
+                        res.send(JSON.stringify({
+                             http_code: 200
+                            ,http_response: result
+                        }));
+    
+    
+                        
+    
+    
+    
+                    }
+    
+                })
+
+            }
+            else if ($request2 == 'sms')
+            {
+                let sql = "SELECT sms_number,sms,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code == "+opcode  ;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+    
+                        res.send(JSON.stringify({
+                             http_code: 200
+                            ,http_response: result
+                        }));
+
+                    }
+    
+                })
+            }
+
+
+        }
+            
+            else {
+                res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
 
 
 
@@ -667,63 +843,7 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
 )
 
 
-// --------------Get All Numbers---------------
 
-app.get('/subscribe/sim/:device', (req, res) => {
-    let opcode = req.query.opcode;
-    $request1 = req.params.device;
-    if ($request1 == 'subscribe_devices_info') 
-    {
-        if (opcode != null || undefined) 
-        {
-            // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
-
-            let sql = "SELECT number FROM " + $request1 +" WHERE number LIKE '"+opcode+"%' "   ;
-            db.query(sql, (err, result) => {
-                if (err) 
-                {
-
-                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
-                }
-                else{
-
-                    var filtered = [{},{},{}];
-                    
-
-                    // let data = JSON.parse(JSON.stringify(result));
-                    // let number = result ;
-
-                    // let b = number.filter(e=>
-                    //     {
-                    //         e.substr(0,5)== opcode
-                    //     })
-
-                    res.send(JSON.stringify({
-                         http_code: 200
-                        ,http_response: result
-                    }));
-
-
-                    
-
-
-
-                }
-
-            })
-        }
-            
-            else {
-                res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
-            }
-
-
-    }
-    else {
-        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
-    }
-}
-)
 
 
 
