@@ -688,15 +688,15 @@ app.get('/subscribe/sim/:device', (req, res) => {
                     var filtered = [];
 
 
-                    let number = JSON.parse(result);
-                    let b = number.filter(e=>
-                        {
-                            number.substr(0,5)== opcode
-                        })
+                    // let number = JSON.parse(result);
+                    // let b = number.filter(e=>
+                    //     {
+                    //         number.substr(0,5)== opcode
+                    //     })
 
                     res.send(JSON.stringify({
                         http_code: 200
-                        , http_response: b
+                        , http_response: 123
                     }));
 
 
