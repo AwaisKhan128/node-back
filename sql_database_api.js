@@ -513,7 +513,7 @@ app.get('/select/:type/:operator_balance', (req, res) => {
 
             if ($request2=='ussd')
             {
-                let sql = "SELECT ussd,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code == "+opcode   ;
+                let sql = "SELECT ussd,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code = "+opcode   ;
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
@@ -539,7 +539,7 @@ app.get('/select/:type/:operator_balance', (req, res) => {
             }
             else if ($request2 == 'sms')
             {
-                let sql = "SELECT sms_number,sms,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code == "+opcode  ;
+                let sql = "SELECT sms_number,sms,receive_format,max_inquiry FROM " + $request1 +" WHERE operator_code = "+opcode  ;
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
