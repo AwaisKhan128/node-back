@@ -2,6 +2,8 @@ const express = require('express'), bodyParser = require('body-parser');;
 const mysql = require('mysql');
 
 
+
+
 // var db = mysql.createConnection({
 
 // });
@@ -76,6 +78,11 @@ var cors = require('cors');
 
 // use it before all route definitions
 app.use(cors({origin: '*'}));
+
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 // app.get('/connect', (req, res) => {
 
@@ -252,10 +259,8 @@ app.post('/insert/accounts/:resellers', (req, res) => {
     let obj = new Object(requested_body);
 
     if ($request1 == 'resellers') {
-        if (Object.keys(obj).length < 10) {
-            res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
-        }
-        else if (Object.keys(obj).length == 10) {
+        
+        {
             let sql = "INSERT INTO "
                 + $request1 +
                 "(id,username,business_name,first_name,last_name,phone,email,ip_addr,device,country) VALUES("
@@ -279,9 +284,7 @@ app.post('/insert/accounts/:resellers', (req, res) => {
             });
 
         }
-        else {
-            res.send(JSON.stringify({ http_code: 100, http_response: "Error body Overlimit" }));
-        }
+        
     }
 }
 )
@@ -316,6 +319,45 @@ app.get('/select/accounts/:resellers', (req, res) => {
 
 }
 )
+
+
+// ----------Post data to operators-------------
+app.post('/insert/accounts/:operators_list', (req, res) => {
+
+    $request1 = req.params.operators_list;
+
+    let requested_body = req.body;
+    // var count = Object.keys(requested_body)
+    let obj = new Object(requested_body);
+
+    if ($request1 == 'operators_list') {
+        
+        {
+            let sql = "INSERT INTO "
+                + $request1 +
+                "(name,code) VALUES('"
+                + requested_body.name + "','" + requested_body.code + "')";
+
+            db.query(sql, (err, result) => {
+                if (err) {
+                    // console.log(err);
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                }
+                else {
+                    // console.log(result);
+
+                    res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                }
+
+            });
+
+        }
+        
+    }
+}
+)
+
+
 
 
 
@@ -813,13 +855,13 @@ const emit = new EventEmitter();
 // sets event listener
 
 app.get('/webhook/', (req, res) => {
-    emit.emit('chat', req.body)
+    io.emit('chat', req.body)
     res.status(200).send('success '+req.body);
     // res.send(JSON.stringify(req.body))
 });
 
 
-emit.on('chat', function(requestBody) {
+io.on('chat', function(requestBody) {
     // Do what you want
     console.log("Working "+requestBody);    
 });
@@ -863,7 +905,7 @@ app.post('/webpost', (req, res) => {
 
 
 const PORT = process.env.PORT || 3000
-app.listen(
+server.listen(
     PORT,
     '0.0.0.0',
     function () {
