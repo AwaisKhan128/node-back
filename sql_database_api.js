@@ -327,33 +327,69 @@ app.post('/insert/accounts/:operators_list', (req, res) => {
     $request1 = req.params.operators_list;
 
     let requested_body = req.body;
-    // var count = Object.keys(requested_body)
-    let obj = new Object(requested_body);
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
 
-    if ($request1 == 'operators_list') {
-        
-        {
-            let sql = "INSERT INTO "
-                + $request1 +
-                "(name,code) VALUES('"
-                + requested_body.name + "','" + requested_body.code + "')";
+    if (count>0)
+    {
 
-            db.query(sql, (err, result) => {
-                if (err) {
-                    // console.log(err);
-                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
-                }
-                else {
-                    // console.log(result);
-
-                    res.send(JSON.stringify({ http_code: 200, http_response: result }));
-                }
-
-            });
-
+        if ($request1 == 'operators_list') {
+            {
+                let sql = "INSERT INTO "
+                    + $request1 +
+                    "(name,code) VALUES('"
+                    + requested_body.name + "','" + requested_body.code + "')";
+    
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+            
         }
-        
     }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+app.get('/select/accounts/:operators_list', (req, res) => {
+
+    $request1 = req.params.operators_list;
+    if ($request1 == "operators_list")
+    {
+
+        if ($request != null || undefined) {
+            let sql = "SELECT * FROM " + $request1 ;
+            db.query(sql, (err, result) => {
+                if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                res.send(JSON.stringify({
+                    http_code: 200
+                    , http_response: result
+                }));
+    
+            })
+        }
+    }
+
+    else {
+        res.send(JSON.stringify({
+            http_code: 200
+            , http_response: 'Location missing'
+        })
+        );
+    }
+
+
 }
 )
 
