@@ -321,7 +321,7 @@ app.get('/select/accounts/:resellers', (req, res) => {
 )
 
 
-// ----------Post data to operators-------------
+// ---------- data to operators-------------
 app.post('/insert/accounts/:operators_list', (req, res) => {
 
     $request1 = req.params.operators_list;
@@ -392,6 +392,9 @@ app.get('/select/accounts/:operators_list', (req, res) => {
 
 }
 )
+
+
+// ----------------Operator Number-----------
 
 
 
@@ -663,6 +666,60 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
 }
 )
 
+
+// --------------Get All Numbers---------------
+
+app.get('/subscribe/sim/:device', (req, res) => {
+    let opcode = req.query.opcode;
+    $request1 = req.params.device;
+    if ($request1 == 'subscribe_devices_info') 
+    {
+        if (opcode != null || undefined) 
+        {
+            let sql = "SELECT number FROM " + $request1 ;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+
+                    var filtered = [];
+
+
+                    let number = JSON.parse(result);
+                    let b = number.filter(e=>
+                        {
+                            number.substr(0,5)== opcode
+                        })
+
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: b
+                    }));
+
+
+                    
+
+
+
+                }
+
+            })
+        }
+            
+            else {
+                res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            }
+
+
+    }
+    else {
+        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+    }
+}
+)
 
 
 
