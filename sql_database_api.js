@@ -434,7 +434,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
 }
 )
 
-app.delete('remove/operators/:operators_list',(req,res)=>
+app.delete('/remove/operators/:operators_list',(req,res)=>
 {
     $request1 = req.params.operators_list;
     $request2 = req.query.id;
