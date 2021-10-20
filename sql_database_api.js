@@ -393,7 +393,6 @@ app.get('/select/operators/:operators_list', (req, res) => {
 }
 )
 
-
 app.put('/modify/operators/:operators_list', (req, res) => {
 
     $request1 = req.params.operators_list;
@@ -532,8 +531,6 @@ app.post('/insert/balance/:operator_balance', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    if (count>0)
-    {
 
         if ($request1 == 'operator_balance') {
             {
@@ -565,10 +562,8 @@ app.post('/insert/balance/:operator_balance', (req, res) => {
         {
             res.send({http_code:401,http_response:"path required"})
         }
-    }
-    else{
-        res.send({http_code:401,http_response:"body required"})
-    }
+    
+    
 }
 )
 
