@@ -454,7 +454,7 @@ app.get('/operators/sim/:device', (req, res) => {
 
 
 // -------------- Operator Balance ----
-app.post('/insert/accounts/:operator_balance', (req, res) => {
+app.post('/insert/balance/:operator_balance', (req, res) => {
 
     $request1 = req.params.operator_balance;
 
@@ -575,7 +575,7 @@ app.get('/select/:type/:operator_balance', (req, res) => {
 }
 )
 
-app.put('/modify/accounts/:operator_balance', (req, res) => {
+app.put('/modify/balance/:operator_balance', (req, res) => {
 
     $request1 = req.params.operator_balance;
     $request2 = req.query.opcode;
@@ -625,7 +625,7 @@ app.put('/modify/accounts/:operator_balance', (req, res) => {
 }
 )
 
-app.delete('remove/accounts/:operator_balance',(req,res)=>
+app.delete('remove/balance/:operator_balance',(req,res)=>
 {
     $request1 = req.params.operator_balance;
     $request2 = req.query.opcode;
@@ -656,7 +656,7 @@ app.delete('remove/accounts/:operator_balance',(req,res)=>
 
 // --------------- 
 // -------------- Operator Number ----
-app.post('/insert/accounts/:operator_number', (req, res) => {
+app.post('/insert/number/:operator_number', (req, res) => {
 
     $request1 = req.params.operator_number;
 
@@ -778,7 +778,7 @@ app.get('/select/:type/:operator_number', (req, res) => {
 }
 )
 
-app.put('/modify/accounts/:operator_number', (req, res) => {
+app.put('/modify/number/:operator_number', (req, res) => {
 
     $request1 = req.params.operator_number;
     $request2 = req.query.opcode;
@@ -828,7 +828,7 @@ app.put('/modify/accounts/:operator_number', (req, res) => {
 }
 )
 
-app.delete('remove/accounts/:operator_number',(req,res)=>
+app.delete('remove/number/:operator_number',(req,res)=>
 {
     $request1 = req.params.operator_number;
     $request2 = req.query.opcode;
