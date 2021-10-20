@@ -368,7 +368,7 @@ app.get('/select/accounts/:operators_list', (req, res) => {
     if ($request1 == "operators_list")
     {
 
-        if ($request != null || undefined) {
+        {
             let sql = "SELECT * FROM " + $request1 ;
             db.query(sql, (err, result) => {
                 if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
