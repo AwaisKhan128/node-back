@@ -394,7 +394,7 @@ app.get('/select/operators/:operators_list', (req, res) => {
 )
 app.put('/modify/operators/:operators_list', (req, res) => {
 
-    $request1 = req.params.operator_list;
+    $request1 = req.params.operators_list;
     $request2 = req.query.id;
 
     let requested_body = req.body;
