@@ -337,7 +337,7 @@ app.post('/insert/operators/:operators_list', (req, res) => {
             {
                 let sql = "INSERT INTO "
                     + $request1 +
-                    "(name,code) VALUES('"
+                    "(operator_name,operator_name_code) VALUES('"
                     + requested_body.name + "','" + requested_body.code + "')";
     
                 db.query(sql, (err, result) => {
