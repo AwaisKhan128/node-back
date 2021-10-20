@@ -392,26 +392,27 @@ app.get('/select/operators/:operators_list', (req, res) => {
 
 }
 )
+
+
 app.put('/modify/operators/:operators_list', (req, res) => {
 
     $request1 = req.params.operators_list;
     $request2 = req.query.id;
 
+
     let requested_body = req.body;
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    // if (count>0)
-    // {
+    if (count>0)
+    {
 
-        if ($request1 == 'operators_list' && $request2!=null) 
+        if ($request1 == 'operators_list') 
         {
             {
-                
-
-
-                let sql = 'UPDATE '+$request1+' SET operator_name = '
-                +requested_body.name+' , operator_code = '+requested_body.code+' WHERE id = '+$request2;
+                let sql = "UPDATE " + $request1 + " SET operator_name = '" 
+                + requested_body.operator_name + "' , operator_code = '" 
+                + requested_body.operator_code + "' WHERE id = " + $request2 + ";";
 
                 db.query(sql, (err, result) => {
                     if (err) {
@@ -430,14 +431,15 @@ app.put('/modify/operators/:operators_list', (req, res) => {
         }
         else
         {
-            res.send({http_code:401,http_response:"path or id missing"})
+            res.send({http_code:401,http_response:"path required"})
         }
-    // }
-    // else{
-    //     res.send({http_code:401,http_response:"body required "+requested_body})
-    // }
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
 }
 )
+
 app.delete('remove/operators/:operator_list',(req,res)=>
 {
     $request1 = req.params.operator_list;
