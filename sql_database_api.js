@@ -330,7 +330,7 @@ app.post('/insert/operators/:operators_list', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    if (count>0)
+    if (count!=0)
     {
 
         if ($request1 == 'operators_list') {
