@@ -432,7 +432,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
         }
     }
     else{
-        res.send({http_code:401,http_response:"body required"})
+        res.send({http_code:401,http_response:"body required "+requested_body})
     }
 }
 )
