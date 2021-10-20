@@ -404,7 +404,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
     if (count>0)
     {
 
-        if ($request1 == 'operator_list' && $request2!=null) 
+        if ($request1 == 'operators_list' && $request2!=null) 
         {
             {
                 let sql = "UPDATE " + $request1 + " SET operator_name = '" 
