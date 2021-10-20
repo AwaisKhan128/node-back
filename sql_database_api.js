@@ -392,6 +392,78 @@ app.get('/select/operators/:operators_list', (req, res) => {
 
 }
 )
+app.put('/modify/operators/:operator_list', (req, res) => {
+
+    $request1 = req.params.operator_list;
+    $request2 = req.query.id;
+
+    let requested_body = req.body;
+    // let obj = new Object(requested_body);
+    var count = Object.keys(requested_body)
+
+    if (count>0)
+    {
+
+        if ($request1 == 'operator_list' && $request2!=null) 
+        {
+            {
+                let sql = "UPDATE " + $request1 + " SET operator_name = '" 
+                + requested_body.name + "' , operator_code = '" 
+                + requested_body.code + "' WHERE id = " + $request2 + ";";
+
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+    
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+    
+                });
+    
+            }
+        }
+        else
+        {
+            res.send({http_code:401,http_response:"path or id missing"})
+        }
+    }
+    else{
+        res.send({http_code:401,http_response:"body required"})
+    }
+}
+)
+app.delete('remove/operators/:operator_list',(req,res)=>
+{
+    $request1 = req.params.operator_list;
+    $request2 = req.query.id;
+
+    if ($request1 =='operator_list' && $request2 !=null)
+    {
+        let sql = "DELETE FROM "+$request1+"' WHERE id = "+$request2;
+        db.query(sql, (err, result) => {
+            if (err) {
+                // console.log(err);
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+            }
+            else {
+                // console.log(result);
+
+                res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            }
+
+        });
+    }
+    else{
+        res.send(JSON.stringify({ http_code: 400, http_response: 'Error in path or id ' + err }));
+
+    }
+}
+
+)
 
 
 
