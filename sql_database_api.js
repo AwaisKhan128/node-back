@@ -407,9 +407,11 @@ app.put('/modify/operators/:operators_list', (req, res) => {
         if ($request1 == 'operators_list' && $request2!=null) 
         {
             {
-                let sql = "UPDATE " + $request1 + " SET operator_name = '" 
-                + requested_body.name + "' , operator_code = '" 
-                + requested_body.code + "' WHERE id = " + $request2 + ";";
+                
+
+
+                let sql = 'UPDATE '+$request1+' SET operator_name = '
+                +requested_body.name+' , operator_code = '+requested_body.code+' WHERE id = '+$request2;
 
                 db.query(sql, (err, result) => {
                     if (err) {
