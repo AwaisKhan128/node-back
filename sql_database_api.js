@@ -441,7 +441,7 @@ app.delete('/remove/operators/:operators_list',(req,res)=>
 
     if ($request1 =='operators_list' && $request2 !=null)
     {
-        let sql = "DELETE FROM "+$request1+"' WHERE id = "+$request2;
+        let sql = "DELETE FROM "+$request1+" WHERE id = "+$request2;
         db.query(sql, (err, result) => {
             if (err) {
                 // console.log(err);
