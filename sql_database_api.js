@@ -404,8 +404,6 @@ app.put('/modify/operators/:operators_list', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    
-
         if ($request1 == 'operators_list') 
         {
             {
@@ -421,7 +419,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
                     else {
                         // console.log(result);
     
-                        res.send(JSON.stringify({ http_code: 200, http_response: result+" "+requested_body }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: result}));
                     }
     
                 });
@@ -436,12 +434,12 @@ app.put('/modify/operators/:operators_list', (req, res) => {
 }
 )
 
-app.delete('remove/operators/:operator_list',(req,res)=>
+app.delete('remove/operators/:operators_list',(req,res)=>
 {
-    $request1 = req.params.operator_list;
+    $request1 = req.params.operators_list;
     $request2 = req.query.id;
 
-    if ($request1 =='operator_list' && $request2 !=null)
+    if ($request1 =='operators_list' && $request2 !=null)
     {
         let sql = "DELETE FROM "+$request1+"' WHERE id = "+$request2;
         db.query(sql, (err, result) => {
