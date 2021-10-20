@@ -404,8 +404,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    if (count>0)
-    {
+    
 
         if ($request1 == 'operators_list') 
         {
@@ -433,10 +432,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
         {
             res.send({http_code:401,http_response:"path required"})
         }
-    }
-    else{
-        res.send({http_code:401,http_response:"body required"})
-    }
+    
 }
 )
 
