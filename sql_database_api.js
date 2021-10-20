@@ -650,7 +650,7 @@ app.put('/modify/balance/:operator_balance', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    if (count>0)
+    
     {
 
         if ($request1 == 'operator_balance') 
@@ -684,9 +684,7 @@ app.put('/modify/balance/:operator_balance', (req, res) => {
             res.send({http_code:401,http_response:"path required"})
         }
     }
-    else{
-        res.send({http_code:401,http_response:"body required"})
-    }
+    
 }
 )
 
