@@ -422,7 +422,7 @@ app.put('/modify/operators/:operators_list', (req, res) => {
                     else {
                         // console.log(result);
     
-                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: result+" "+requested_body }));
                     }
     
                 });
