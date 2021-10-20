@@ -502,7 +502,7 @@ app.post('/insert/balance/:operator_balance', (req, res) => {
 }
 )
 
-app.get('/select/:type/:operator_balance', (req, res) => {
+app.get('/bselect/:type/:operator_balance', (req, res) => {
     let opcode = req.query.opcode;
     $request1 = req.params.operator_balance;
     $request2 = req.params.type;
@@ -705,7 +705,7 @@ app.post('/insert/number/:operator_number', (req, res) => {
 }
 )
 
-app.get('/select/:type/:operator_number', (req, res) => {
+app.get('/nselect/:type/:operator_number', (req, res) => {
     let opcode = req.query.opcode;
     $request1 = req.params.operator_number;
     $request2 = req.params.type;
