@@ -322,7 +322,7 @@ app.get('/select/accounts/:resellers', (req, res) => {
 
 
 // ---------- data to operators-------------
-app.post('/insert/accounts/:operators_list', (req, res) => {
+app.post('/insert/operators/:operators_list', (req, res) => {
 
     $request1 = req.params.operators_list;
 
@@ -362,7 +362,7 @@ app.post('/insert/accounts/:operators_list', (req, res) => {
     }
 }
 )
-app.get('/select/accounts/:operators_list', (req, res) => {
+app.get('/select/operators/:operators_list', (req, res) => {
 
     $request1 = req.params.operators_list;
     if ($request1 == "operators_list")
@@ -392,6 +392,8 @@ app.get('/select/accounts/:operators_list', (req, res) => {
 
 }
 )
+
+
 
 // --------------Get All Numbers---------------
 app.get('/operators/sim/:device', (req, res) => {
