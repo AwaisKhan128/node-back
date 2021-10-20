@@ -401,8 +401,8 @@ app.put('/modify/operators/:operators_list', (req, res) => {
     // let obj = new Object(requested_body);
     var count = Object.keys(requested_body)
 
-    if (count>0)
-    {
+    // if (count>0)
+    // {
 
         if ($request1 == 'operators_list' && $request2!=null) 
         {
@@ -430,10 +430,10 @@ app.put('/modify/operators/:operators_list', (req, res) => {
         {
             res.send({http_code:401,http_response:"path or id missing"})
         }
-    }
-    else{
-        res.send({http_code:401,http_response:"body required "+requested_body})
-    }
+    // }
+    // else{
+    //     res.send({http_code:401,http_response:"body required "+requested_body})
+    // }
 }
 )
 app.delete('remove/operators/:operator_list',(req,res)=>
