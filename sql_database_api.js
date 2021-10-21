@@ -918,6 +918,61 @@ app.delete('remove/number/:operator_number',(req,res)=>
 
 // --------------- 
 
+// ----------Top up requests---------
+app.post('/insert/topups/information',(req,res)=>
+{
+    let requested_body = req.body;
+    {
+        let sql = "INSERT INTO " + 'Top_Requests' + "(user_id , id, number, amount) VALUES('"
+        + requested_body.user_id + "','"
+        + requested_body.id + "','" + requested_body.number + "','"
+        + requested_body.amount + "')";
+
+        db.query(sql, (err, result) => {
+            if (err) {
+                // console.log(err);
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+            }
+            else {
+                // console.log(result);
+
+                res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            }
+
+        });
+
+    }
+
+})
+
+app.get('/select/topups/information', (req, res) => {
+
+    let $request = req.query.user_id;
+    if ($request != (null||undefined))
+    {
+
+        let sql = "SELECT * FROM " + 'Top_Requests' + " WHERE user_id = " + $request;
+        db.query(sql, (err, result) => {
+            if (err) res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+            res.send(JSON.stringify({
+                http_code: 200
+                , http_response: result
+            }));
+    
+        })
+    }
+    else
+    {
+        res.send(JSON.stringify({
+            http_code: 200
+            , http_response: "Required user id"
+        }));
+    }
+    
+
+
+}
+)
 
 
 
