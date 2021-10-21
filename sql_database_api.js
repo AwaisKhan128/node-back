@@ -156,12 +156,12 @@ app.get('/select/permissions', (req, res) => {
             if (err) 
             {
 
-                res.json(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
             }
             else
             {
 
-                res.json(JSON.stringify({
+                res.send(JSON.stringify({
                     http_code: 200
                     , http_response: result
                 }));
