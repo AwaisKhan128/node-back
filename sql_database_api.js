@@ -717,7 +717,7 @@ app.delete('remove/balance/:operator_balance',(req,res)=>
 
 )
 
-// --------------- 
+
 // -------------- Operator Number ----
 app.post('/insert/number/:operator_number', (req, res) => {
 
