@@ -474,7 +474,7 @@ app.get('/operators/sim/:device', (req, res) => {
         {
             // SELECT number FROM `subscribe_devices_info` WHERE number LIKE '0322%'
 
-            let sql = "SELECT number FROM " + $request1 +" WHERE number LIKE '"+opcode+"%' "   ;
+            let sql = "SELECT number FROM " + $request1 +" WHERE number LIKE '%"+opcode+"%' "   ;
             db.query(sql, (err, result) => {
                 if (err) 
                 {
