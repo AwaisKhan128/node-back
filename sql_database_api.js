@@ -1330,9 +1330,11 @@ app.get('/subscribe/sim/:device', (req, res) => {
 }
 )
 
-app.put('/subscribe/sim/:device/:number', (req, res) => { // Only for all update
+app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
 
-    $request2 = req.params.number;
+    $request2 = req.query.id;
+    $request3 = req.query.slot;
+
     let requested_body = req.body;
 
     $request1 = req.params.device;
@@ -1344,7 +1346,7 @@ app.put('/subscribe/sim/:device/:number', (req, res) => { // Only for all update
     + "',time='"+requested_body.time + "',delay='"+requested_body.delay + 
     "',phone_Status='"+requested_body.phone_status +
      "',success='"+requested_body.success + "',sim_Status='"+requested_body.sim_status
-    +"' WHERE number = '" + $request2 + "';";
+    +"' WHERE id = '" + $request2 + "'AND slot = "+$request3;
 
     db.query(sql, (err, result) => {
         if (err) {
