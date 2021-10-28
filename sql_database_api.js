@@ -1333,6 +1333,8 @@ app.get('/subscribe/sim/:device', (req, res) => {
 app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
 
     $request2 = req.query.id;
+    $request4 = req.query.number;
+
     $request3 = req.query.imei;
 
     let requested_body = req.body;
@@ -1342,11 +1344,12 @@ app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
     
     {
     let sql = "UPDATE " + $request1 + " SET balance = '" 
-    + requested_body.balance + "',date= '"+requested_body.date
+    + requested_body.balance + "',slot= '"+requested_body.slot + "',number= '"
+    +requested_body.number + "',date= '"+requested_body.date
     + "',time='"+requested_body.time + "',delay='"+requested_body.delay + 
     "',phone_Status='"+requested_body.phone_status +
      "',success='"+requested_body.success + "',sim_Status='"+requested_body.sim_status
-    +"' WHERE id = '" + $request2 + "'AND imei = "+$request3;
+    +"' WHERE id = '" + $request2 +"'OR number = '"+$request4 + "' AND imei = "+$request3;
 
     db.query(sql, (err, result) => {
         if (err) {
