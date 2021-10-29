@@ -1350,8 +1350,8 @@ app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
     + "',time='"+requested_body.time + "',delay='"+requested_body.delay + 
     "',phone_Status='"+requested_body.phone_status +
      "',success='"+requested_body.success + "',sim_Status='"+requested_body.sim_status
-    +"' WHERE (id = '" + $request2 + "' AND imei = '"+$request3 + "') AND (number = '"+$request4 
-    +"' OR slot = '"+$slot+"';" 
+    +"' WHERE (id = " + $request2 + " AND imei = '"+$request3 + "') AND (number = '"+$request4 
+    +"' OR slot = '"+$slot+"';" ;
 
     db.query(sql, (err, result) => {
         if (err) {
