@@ -1407,7 +1407,7 @@ app.delete('remove/sim/:device',(req,res)=>
 
     if ($request1 =='subscribe_devices_info' && $request2 !=null)
     {
-        let sql = "DELETE FROM '"+$request1+"' WHERE imei = '"+$request2+"';";
+        let sql = "DELETE FROM "+$request1+" WHERE imei = '"+$request2+"';";
         db.query(sql, (err, result) => {
             if (err) {
                 // console.log(err);
