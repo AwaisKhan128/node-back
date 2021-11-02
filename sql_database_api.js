@@ -1376,8 +1376,6 @@ app.put('/subscribe/sims/:device/', (req, res) => { // Only for all update
 
     $request3 = req.query.imei;
 
-    let requested_body = req.body;
-
     $request1 = req.params.device;
     if ($request1 == 'subscribe_devices_info')
     
@@ -1401,6 +1399,36 @@ app.put('/subscribe/sims/:device/', (req, res) => { // Only for all update
 
 }
 )
+
+app.delete('remove/sim/:device/',(req,res)=>
+{
+    $request1 = req.params.device;
+    $request2 = req.query.imei;
+
+    if ($request1 =='subscribe_devices_info' && $request2 !=null)
+    {
+        let sql = "DELETE FROM "+$request1+"' WHERE imei = "+$request2;
+        db.query(sql, (err, result) => {
+            if (err) {
+                // console.log(err);
+                res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+            }
+            else {
+                // console.log(result);
+
+                res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            }
+
+        });
+    }
+    else{
+        res.send(JSON.stringify({ http_code: 400, http_response: 'Error in path or id ' + err }));
+
+    }
+}
+
+)
+
 
 
 
