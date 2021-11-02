@@ -1330,7 +1330,7 @@ app.get('/subscribe/sim/:device', (req, res) => {
 }
 )
 
-app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
+app.put('/subscribe/sim/:device', (req, res) => { // Only for all update
 
     $request2 = req.query.id;
     $request4 = req.query.number;
@@ -1368,7 +1368,7 @@ app.put('/subscribe/sim/:device/', (req, res) => { // Only for all update
 }
 )
 
-app.put('/subscribe/sims/:device/', (req, res) => { // Only for all update
+app.put('/subscribe/sims/:device', (req, res) => { // Only for all update
 
     $request2 = req.query.id;
     $request4 = req.query.number;
@@ -1400,7 +1400,7 @@ app.put('/subscribe/sims/:device/', (req, res) => { // Only for all update
 }
 )
 
-app.delete('remove/sim/:device/',(req,res)=>
+app.delete('remove/sim/:device',(req,res)=>
 {
     $request1 = req.params.device;
     $request2 = req.query.imei;
