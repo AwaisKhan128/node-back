@@ -1400,7 +1400,7 @@ app.put('/subscribe/sims/:device', (req, res) => { // Only for all update
 }
 )
 
-app.delete('remove/sim/:device',(req,res)=>
+app.delete('/remove/sim/:device',(req,res)=>
 {
     $request1 = req.params.device;
     $request2 = req.query.imei;
