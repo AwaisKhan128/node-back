@@ -1440,6 +1440,7 @@ app.post('/sendverification/:email/:api', (req, res) => {
     $request2 = req.params.api; //code
 
     var nodemailer = require('nodemailer');
+    const pug = require('pug');
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         secure: false,
@@ -1452,30 +1453,49 @@ app.post('/sendverification/:email/:api', (req, res) => {
         }
     });
 
-    var mailOptions = {
-        from: 'nor-reply@smsgateways.com',
-        to: $request1,
-        subject: 'Welcome to our SMS Gateway ',
-        text:'Here is the Code',
-        html: ''
-        +'<h1> Welcome to SMS Gateway Providers </h1> <p> Your Verification Code is.  \n' +
-            '.....' +
-            'Code : ' + $request2 + '\n' +
-            '</p> '
-    };
+    const _fs = require('fs');
+const _path = require('path');
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.send(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-            res.send(JSON.stringify({
-                response_msg: "Verification Email Sent success"
-            })
-            )
-        }
+code_data=0;
+
+var path = _path.join("/");
+    _fs.readFile('verifier_code.html', 'utf8', function (err, data) {
+        if (err) {
+            _console.log(err, 'error');
+
+            return null;
+        };
+
+        code_data = data.replace('{{code}}', $request2);
+        var mailOptions = {
+            from: 'nor-reply@smsgateways.com',
+            to: $request1,
+            subject: 'Welcome to our SMS Gateway ',
+            text:'Here is the Code',
+            html : code_data
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                res.send(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.send(JSON.stringify({
+                    response_msg: "Verification Email Sent success"
+                })
+                )
+            }
+        });
+        
+
+        
     });
+
+    
+
+
+    
 
 
 }
@@ -1502,30 +1522,44 @@ app.post('/gatewaysendmail/:email/:user/:api', (req, res) => {
         }
     });
 
-    var mailOptions = {
-        from: 'nor-reply@smsgateways.com',
-        to: $request3,
-        subject: 'Welcome to our Business as a Sub Admin ',
-        text: '<h1> Welcome to SMS Gateway Providers </h1> <p> Here are your Credentials.  \n' +
-            '.....' +
-            'Hi Mr. ' + $request1 + '\n' +
-            'API_Username : ' + $request1 + '\n' +
-            'API_Key : ' + $request2 + '\n' +
-            '</p>'
-    };
+    const _fs = require('fs');
+const _path = require('path');
+    var path = _path.join("/");
+    _fs.readFile('credentials_code.html', 'utf8', function (err, data) {
+        if (err) {
+            _console.log(err, 'error');
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.send(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-            res.send(JSON.stringify({
-                response_msg: "Email Sent success"
-            })
-            )
-        }
+            return null;
+        };
+
+        code_data = data.replace('{{Email}}', $request1);
+        code_data = code_data.replace('{{Password}}', $request2);
+
+        var mailOptions = {
+            from: 'nor-reply@smsgateways.com',
+            to: $request3,
+            subject: 'Welcome to our Business as a Sub Admin ',
+            html: code_data
+        };
+    
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                res.send(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.send(JSON.stringify({
+                    response_msg: "Email Sent success"
+                })
+                )
+            }
+        });
+        
+
+        
     });
+
+    
 
 
 }
