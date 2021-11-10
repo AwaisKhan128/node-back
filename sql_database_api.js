@@ -1456,10 +1456,11 @@ app.post('/sendverification/:email/:api', (req, res) => {
         from: 'nor-reply@smsgateways.com',
         to: $request1,
         subject: 'Welcome to our SMS Gateway ',
-        text: '<h1> Welcome to SMS Gateway Providers </h1> <p> Your Verification Code is.  \n' +
+        text: '<html>'
+        +'<h1> Welcome to SMS Gateway Providers </h1> <p> Your Verification Code is.  \n' +
             '.....' +
             'Code : ' + $request2 + '\n' +
-            '</p>'
+            '</p> </html>'
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
