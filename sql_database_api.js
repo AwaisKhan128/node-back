@@ -1123,9 +1123,9 @@ app.post('/message/:message_path', (req, res) => {
 
                                     
                                     
-                                    let T_count = Object.keys(result)
+                                    let T_count = result.length;
 
-                                    let answer = count/T_count;
+                                    let answer = (count/T_count).toFixed(2);
                                     let sql = ' UPDATE subscribe_devices_info SET success= '+"'"+ answer +"'"+' WHERE id = '+requested_body.id ;
 
                                     db.query(sql, (err, result) => {
@@ -1183,6 +1183,11 @@ app.get('/message/:message_path', (req, res) => {
                         http_code: 200
                         , http_response: result
                     }));
+                    // console.log(result)
+                    
+
+
+                    
                 }
 
             })
