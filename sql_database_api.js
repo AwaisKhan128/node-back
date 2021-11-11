@@ -1103,11 +1103,22 @@ app.post('/message/:message_path', (req, res) => {
                                 else{
 
                                     let count = 0;
-                                    result.forEach(data => {
-                                        if (data.status == "completed")
+                                    // result.forEach(data => {
+                                    //     if (data.status == "completed")
+                                    //     {
+                                    //         count++;
+                                    //     }
+                                    // });
+
+                                    result.forEach(function(obj) 
+                                    { 
+                                       
+                                        if (obj.status == "completed")
                                         {
                                             count++;
                                         }
+                                    
+                                    
                                     });
 
                                     
