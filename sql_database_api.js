@@ -1079,14 +1079,62 @@ app.post('/message/:message_path', (req, res) => {
                         + requested_body.from_num + "','" + requested_body.to_num + "','"
                         + requested_body.direction + "','" + requested_body.type + "','"
                         + requested_body.cost + "','" + requested_body.status + "')";
+
                     db.query(sql, (err, result) => {
                         if (err) {
                             // console.log(err);
+                        
                             res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+
+                            
+
+
+
                         }
                         else {
                             // console.log(result);
-    
+                            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + requested_body.id;
+                            db.query(sql, (err, result) => {
+                                if (err) 
+                                {
+                
+                                    // res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                                }
+                                else{
+
+                                    let count = 0;
+                                    result.forEach(status => {
+                                        if (status == "completed")
+                                        {
+                                            count++;
+                                        }
+                                    });
+
+                                    
+                                    
+                                    let T_count = Object.keys(result)
+
+                                    let answer = count/T_count;
+                                    let sql = ' UPDATE subscribe_devices_info SET success= '+"'"+ answer +"'"+' WHERE id = 270610' ;
+
+                                    db.query(sql, (err, result) => {
+                                        if (err) 
+                                        {
+                        
+                                        }
+                                        else{
+                                            
+                                        }
+                                    })
+
+                                    
+                                    // res.send(JSON.stringify({
+                                    //     http_code: 200
+                                    //     , http_response: result
+                                    // }));
+                                }
+                
+                            })
                             res.send(JSON.stringify({ http_code: 200, http_response: result }));
                         }
     
