@@ -1115,7 +1115,7 @@ app.post('/message/:message_path', (req, res) => {
                                     let T_count = Object.keys(result)
 
                                     let answer = count/T_count;
-                                    let sql = ' UPDATE subscribe_devices_info SET success= '+"'"+ answer +"'"+' WHERE id = 270610' ;
+                                    let sql = ' UPDATE subscribe_devices_info SET success= '+"'"+ answer +"'"+' WHERE id = '+requested_body.id ;
 
                                     db.query(sql, (err, result) => {
                                         if (err) 
@@ -1123,7 +1123,7 @@ app.post('/message/:message_path', (req, res) => {
                         
                                         }
                                         else{
-                                            
+
                                         }
                                     })
 
