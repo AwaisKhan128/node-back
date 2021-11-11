@@ -1103,8 +1103,8 @@ app.post('/message/:message_path', (req, res) => {
                                 else{
 
                                     let count = 0;
-                                    result.forEach(status => {
-                                        if (status == "completed")
+                                    result.forEach(data => {
+                                        if (data.status == "completed")
                                         {
                                             count++;
                                         }
