@@ -1063,38 +1063,46 @@ app.post('/message/:message_path', (req, res) => {
     let obj = new Object(requested_body);
     $request1 = req.params.message_path;
 
-    if ($request1 == 'remote_messages') {
-        if (Object.keys(obj).length < 10) {
-            res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
-        }
-        else if (Object.keys(obj).length === 10) {
-            {
-                let sql = "INSERT INTO "
-                    + $request1 + "(id,username,device,body,from_num,to_num,direction,type,cost,status) VALUES("
-                    + requested_body.id + ",'" + requested_body.username + "','"
-                    + requested_body.device + "','" + requested_body.body + "','"
-                    + requested_body.from_num + "','" + requested_body.to_num + "','"
-                    + requested_body.direction + "','" + requested_body.type + "','"
-                    + requested_body.cost + "','" + requested_body.status + "')";
-                db.query(sql, (err, result) => {
-                    if (err) {
-                        // console.log(err);
-                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
-                    }
-                    else {
-                        // console.log(result);
-
-                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
-                    }
-
-                })
+    
+    
+    {
+        if ($request1 == 'remote_messages') {
+            if (Object.keys(obj).length < 10) {
+                res.send(JSON.stringify({ http_code: 100, http_response: "Error body incomplete" }));
             }
+            else if (Object.keys(obj).length === 10) {
+                {
+                    let sql = "INSERT INTO "
+                        + $request1 + "(id,username,device,body,from_num,to_num,direction,type,cost,status) VALUES("
+                        + requested_body.id + ",'" + requested_body.username + "','"
+                        + requested_body.device + "','" + requested_body.body + "','"
+                        + requested_body.from_num + "','" + requested_body.to_num + "','"
+                        + requested_body.direction + "','" + requested_body.type + "','"
+                        + requested_body.cost + "','" + requested_body.status + "')";
+                    db.query(sql, (err, result) => {
+                        if (err) {
+                            // console.log(err);
+                            res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                        }
+                        else {
+                            // console.log(result);
+    
+                            res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                        }
+    
+                    })
+                }
+            }
+    
         }
+        else {
+            res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
+        }
+    }
 
-    }
-    else {
-        res.send(JSON.stringify({ http_code: 100, http_response: "Path not found? " + $request1 }))
-    }
+    
+
+
 }
 )
 
@@ -1131,6 +1139,55 @@ app.get('/message/:message_path', (req, res) => {
     }
 }
 )
+
+app.post('/message/:type/:date', (req,res) =>
+{
+    $request = req.params.type;
+    $request1 = req.params.date;
+
+    if($request=="scheduler")
+
+    {
+        const schedule = require('node-schedule');
+        const date = new Date(2012, 11, 21, 5, 30, 0);
+
+        let requested_body = req.body;
+        let obj = new Object(requested_body);
+
+
+        if (Object.keys(obj).length === 10)
+        {
+
+        const job = schedule.scheduleJob(date, function(){
+            {
+                let sql = "INSERT INTO "
+                    + $request1 + "(id,username,device,body,from_num,to_num,direction,type,cost,status) VALUES("
+                    + requested_body.id + ",'" + requested_body.username + "','"
+                    + requested_body.device + "','" + requested_body.body + "','"
+                    + requested_body.from_num + "','" + requested_body.to_num + "','"
+                    + requested_body.direction + "','" + requested_body.type + "','"
+                    + requested_body.cost + "','" + requested_body.status + "')";
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        // console.log(err);
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
+                    }
+                    else {
+                        // console.log(result);
+
+                        res.send(JSON.stringify({ http_code: 200, http_response: result }));
+                    }
+
+                })
+            }
+        });
+        }
+        else{
+            res.send(JSON.stringify({ http_code: 400, http_response: 'Minimum length must be 10' }));
+
+        }
+    }
+})
 
 
 
@@ -1261,11 +1318,11 @@ app.post('/subscribe/sim/:device', (req, res) => {
         else if (Object.keys(obj).length > 1) {
             {
                 let sql = "INSERT INTO "
-                    + $request1 + "(id,sim,number,balance,date,time,sim_Status,success,delay,phone_Status,top_up,android_ver,device,imei) VALUES("
-                    + requested_body.id + ",'" + requested_body.sim + "','"
+                    + $request1 + "(id, simId ,sim,number,balance,date,time, ex_time ,sim_Status,success,delay,phone_Status,top_up,android_ver,device,imei) VALUES("
+                    + requested_body.id + ",'" + requested_body.simId  + "','" + requested_body.sim + "','"
                     + requested_body.number + "','" + requested_body.balance + "','"
                     + requested_body.date + "','"
-                    + requested_body.time + "','"
+                    + requested_body.time + "','" + requested_body.ex_time + "','" 
                     + requested_body.sim_status + "','"
                     + requested_body.success + "','"
                     + requested_body.delay + "','"
@@ -1432,6 +1489,10 @@ app.delete('/remove/sim/:device',(req,res)=>
 
 
 
+
+
+
+
 // ------Auto Email Verification----------
 app.post('/sendverification/:email/:api', (req, res) => {
     // var count = Object.keys(requested_body)
@@ -1491,12 +1552,6 @@ var path = _path.join("/");
 
         
     });
-
-    
-
-
-    
-
 
 }
 )
