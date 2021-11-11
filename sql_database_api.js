@@ -1531,23 +1531,37 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
 
             //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
             sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+            db.query(sql, (err, result) => {
+                if (err) {
+                    res.send(JSON.stringify({ http_code: 400, http_response: err }));
+                }
+                else {
+                    res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+                }
+        
+            })
         }
         else if (body.delay.length>0 )
         {
             sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+            db.query(sql, (err, result) => {
+                if (err) {
+                    res.send(JSON.stringify({ http_code: 400, http_response: err }));
+                }
+                else {
+                    res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+                }
+        
+            })
 
 
         }
 
-        db.query(sql, (err, result) => {
-            if (err) {
-                res.send(JSON.stringify({ http_code: 400, http_response: err }));
-            }
-            else {
-                res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
-            }
-    
-        })
+        else{
+            res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
+        }
+
+        
     }
 }
 )
