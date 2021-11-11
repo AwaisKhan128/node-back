@@ -1086,9 +1086,6 @@ app.post('/message/:message_path', (req, res) => {
                         
                             res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to ' + err }));
 
-                            
-
-
 
                         }
                         else {
@@ -1494,10 +1491,9 @@ app.put('/subscribe/sims/:device', (req, res) => { // Only for all update
     $request2 = req.query.id;
     $request4 = req.query.number;
     $slot = req.query.slot;
-
     $request3 = req.query.imei;
-
     $request1 = req.params.device;
+
     if ($request1 == 'subscribe_devices_info')
     
     {
@@ -1518,6 +1514,41 @@ app.put('/subscribe/sims/:device', (req, res) => { // Only for all update
 
     }
 
+}
+)
+
+app.put( '/subscribe/simupdates/:target', (req, res) =>
+{
+    let $request = req.params.target;
+    let $request1 = req.query.simid;
+    let body = req.body;
+
+    if ($request == "subscribe_device_info")
+    {
+        let sql = "";
+        if (body.balance != (null || undefined) )
+        {
+
+            //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
+            sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+        }
+        else if (body.delay != (null || undefined) )
+        {
+            sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+
+
+        }
+
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.send(JSON.stringify({ http_code: 400, http_response: err }));
+            }
+            else {
+                res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+            }
+    
+        })
+    }
 }
 )
 
