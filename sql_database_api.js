@@ -1526,13 +1526,13 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
     if ($request == "subscribe_device_info")
     {
         let sql = "";
-        if (body.balance != (null || undefined) )
+        if (body.balance.length>0 )
         {
 
             //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
             sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
         }
-        else if (body.delay != (null || undefined) )
+        else if (body.delay.length>0 )
         {
             sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
 
