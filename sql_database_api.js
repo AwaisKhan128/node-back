@@ -1558,8 +1558,11 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                 })
             }
             else{
-                res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
+                res.send(JSON.stringify({ http_code: 200, http_response: "Key not exists" }));
             }
+        }
+        else{
+            res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
         }
         
 
