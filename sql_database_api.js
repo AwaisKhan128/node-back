@@ -1521,15 +1521,18 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
 {
     let $request = req.params.target;
     let $request1 = req.query.simid;
-    let body = req.body;
+    let obj = req.body;
+    let body = new Object(obj);
+    
+
 
     if ($request == "subscribe_devices_info")
     {
         let sql = "";
-        if (body.length>0 )
+        if (Object.keys(body).length > 0 )
         {
 
-            if ("balance" in body)
+            if (body.hasOwnProperty("balance"))
             {
             //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
             sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
@@ -1538,13 +1541,13 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                     res.send(JSON.stringify({ http_code: 400, http_response: err }));
                 }
                 else {
-                    res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+                    res.send(JSON.stringify({ http_code: 200, http_response: "Balance Successfully Updated!" }));
                 }
         
             })
             }
 
-            else if ("delay" in body)
+             if (body.hasOwnProperty("delay"))
             {
                 sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.delay+"' WHERE simId = '"+$request1+"'";
                 db.query(sql, (err, result) => {
@@ -1552,14 +1555,12 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                         res.send(JSON.stringify({ http_code: 400, http_response: err }));
                     }
                     else {
-                        res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: "Delay Successfully Updated!" }));
                     }
             
                 })
             }
-            else{
-                res.send(JSON.stringify({ http_code: 200, http_response: "Key not exists" }));
-            }
+            
         }
         else{
             res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
@@ -1569,6 +1570,10 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
         
 
         
+    }
+    else{
+        res.send(JSON.stringify({ http_code: 200, http_response: "Table not found" }));
+
     }
 }
 )
