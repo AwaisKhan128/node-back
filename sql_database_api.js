@@ -1546,6 +1546,20 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
             })
             }
 
+            if (body.hasOwnProperty("simId"))
+            {
+           let  sql =  "UPDATE "+$request+" SET simId = '"+body.simId+"' WHERE simId = '"+simID+"'";
+            db.query(sql, (err, result) => {
+                if (err) {
+                    res.send(JSON.stringify({ http_code: 400, http_response: err }));
+                }
+                else {
+                    res.send(JSON.stringify({ http_code: 200, http_response: "Name updated success" }));
+                }
+        
+            })
+            }
+
              if (body.hasOwnProperty("delay"))
             {
                 let sql =  "UPDATE "+$request+" SET delay = '"+body.delay+"' WHERE simId = '"+simID+"'";
