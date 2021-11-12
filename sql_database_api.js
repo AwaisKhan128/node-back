@@ -1122,7 +1122,7 @@ app.post('/message/:message_path', (req, res) => {
                                     
                                     let T_count = result.length;
 
-                                    let answer = (count/T_count).toFixed(2);
+                                    let answer = ((count/T_count).toFixed(2))*100;
                                     let sql = ' UPDATE subscribe_devices_info SET success= '+"'"+ answer +"'"+' WHERE id = '+requested_body.id ;
 
                                     db.query(sql, (err, result) => {
