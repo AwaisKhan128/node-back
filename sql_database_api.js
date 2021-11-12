@@ -1520,7 +1520,7 @@ app.put('/subscribe/sims/:device', (req, res) => { // Only for all update
 app.put( '/subscribe/simupdates/:target', (req, res) =>
 {
     let $request = req.params.target;
-    let $request1 = req.query.simid;
+    let simID = req.query.simId;
     let obj = req.body;
     let body = new Object(obj);
     
@@ -1528,20 +1528,19 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
 
     if ($request == "subscribe_devices_info")
     {
-        let sql = "";
         if (Object.keys(body).length > 0 )
         {
 
             if (body.hasOwnProperty("balance"))
             {
             //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
-            sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+           let  sql =  "UPDATE "+$request+" SET balance = '"+body.balance+"' WHERE simId = '"+simID+"'";
             db.query(sql, (err, result) => {
                 if (err) {
                     res.send(JSON.stringify({ http_code: 400, http_response: err }));
                 }
                 else {
-                    res.send(JSON.stringify({ http_code: 200, http_response: "Balance Successfully Updated!" }));
+                    res.send(JSON.stringify({ http_code: 200, http_response: "Balance updated success" }));
                 }
         
             })
@@ -1549,13 +1548,14 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
 
              if (body.hasOwnProperty("delay"))
             {
-                sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.delay+"' WHERE simId = '"+$request1+"'";
+                let sql =  "UPDATE "+$request+" SET delay = '"+body.delay+"' WHERE simId = '"+simID+"'";
+                
                 db.query(sql, (err, result) => {
                     if (err) {
                         res.send(JSON.stringify({ http_code: 400, http_response: err }));
                     }
                     else {
-                        res.send(JSON.stringify({ http_code: 200, http_response: "Delay Successfully Updated!" }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: "Delay updated success" }));
                     }
             
                 })
