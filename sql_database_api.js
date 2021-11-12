@@ -1523,7 +1523,7 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
     let $request1 = req.query.simid;
     let body = req.body;
 
-    if ($request == "subscribe_device_info")
+    if ($request == "subscribe_devices_info")
     {
         let sql = "";
         if (body.balance.length>0 )
