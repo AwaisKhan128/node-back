@@ -1546,7 +1546,7 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
 
             else if ("delay" in body)
             {
-                sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+                sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.delay+"' WHERE simId = '"+$request1+"'";
                 db.query(sql, (err, result) => {
                     if (err) {
                         res.send(JSON.stringify({ http_code: 400, http_response: err }));
