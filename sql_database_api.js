@@ -1584,7 +1584,7 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                         res.send(JSON.stringify({ http_code: 400, http_response: err }));
                     }
                     else {
-                        res.send(JSON.stringify({ http_code: 200, http_response: "Delay updated success" }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: "Slot updated success" }));
                     }
             
                 })
@@ -1599,7 +1599,7 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                         res.send(JSON.stringify({ http_code: 400, http_response: err }));
                     }
                     else {
-                        res.send(JSON.stringify({ http_code: 200, http_response: "Delay updated success" }));
+                        res.send(JSON.stringify({ http_code: 200, http_response: "Number updated success" }));
                     }
             
                 })
