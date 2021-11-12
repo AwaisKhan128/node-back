@@ -1526,9 +1526,11 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
     if ($request == "subscribe_devices_info")
     {
         let sql = "";
-        if (body.balance.length>0 )
+        if (body.length>0 )
         {
 
+            if ("balance" in body)
+            {
             //  sql = "UPDATE " + $request + " SET balance= '"+body.balance + "'Where simId = "+$request1;
             sql =  "UPDATE `"+$request+"` SET `balance`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
             db.query(sql, (err, result) => {
@@ -1540,26 +1542,28 @@ app.put( '/subscribe/simupdates/:target', (req, res) =>
                 }
         
             })
+            }
+
+            else if ("delay" in body)
+            {
+                sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
+                db.query(sql, (err, result) => {
+                    if (err) {
+                        res.send(JSON.stringify({ http_code: 400, http_response: err }));
+                    }
+                    else {
+                        res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
+                    }
+            
+                })
+            }
+            else{
+                res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
+            }
         }
-        else if (body.delay.length>0 )
-        {
-            sql =  "UPDATE `"+$request+"` SET `delay`= '"+body.balance+"' WHERE simId = '"+$request1+"'";
-            db.query(sql, (err, result) => {
-                if (err) {
-                    res.send(JSON.stringify({ http_code: 400, http_response: err }));
-                }
-                else {
-                    res.send(JSON.stringify({ http_code: 200, http_response: "Successfully Updated!" }));
-                }
         
-            })
 
-
-        }
-
-        else{
-            res.send(JSON.stringify({ http_code: 200, http_response: "Json not found" }));
-        }
+        
 
         
     }
