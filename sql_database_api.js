@@ -1437,7 +1437,6 @@ app.get('/subscribe/sim/:device', (req, res) => {
 
             })
         }
-
         if (imei != null || undefined)
         {
             let sql = "SELECT * FROM " + $request1 + " WHERE imei = '" + imei+"'";
@@ -1457,7 +1456,7 @@ app.get('/subscribe/sim/:device', (req, res) => {
 
             })
         }
-        
+
         else {
             res.send(JSON.stringify({ http_code: 100, http_response: "Query not found?" }))
         }
