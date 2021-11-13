@@ -1457,6 +1457,7 @@ app.get('/subscribe/sim/:device', (req, res) => {
 
             })
         }
+        
         else {
             res.send(JSON.stringify({ http_code: 100, http_response: "Query not found?" }))
         }
