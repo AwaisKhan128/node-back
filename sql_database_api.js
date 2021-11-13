@@ -1416,6 +1416,7 @@ app.post('/subscribe/sim/:device', (req, res) => {
 
 app.get('/subscribe/sim/:device', (req, res) => {
     let id = req.query.id;
+    let imei = req.query.imei
     $request1 = req.params.device;
     if ($request1 == 'subscribe_devices_info') {
         if (id != null || undefined) {
@@ -1436,8 +1437,28 @@ app.get('/subscribe/sim/:device', (req, res) => {
 
             })
         }
+
+        if (imei != null || undefined)
+        {
+            let sql = "SELECT * FROM " + $request1 + " WHERE imei = '" + imei+"'";
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+
+            })
+        }
         else {
-            res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            res.send(JSON.stringify({ http_code: 100, http_response: "Query not found?" }))
         }
 
 
@@ -1447,6 +1468,8 @@ app.get('/subscribe/sim/:device', (req, res) => {
     }
 }
 )
+
+
 
 app.put('/subscribe/sim/:device', (req, res) => { // Only for all update
 
