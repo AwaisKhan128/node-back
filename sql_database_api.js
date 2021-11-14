@@ -1322,7 +1322,7 @@ app.get('/subscribe/:device', (req, res) => {
         if(id != (null || undefined)  && imei != (null || undefined))
         {
             // SELECT * FROM `subscribe_devices` WHERE id = 316366 AND imei = '869254026691561'
-            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id +" AND imei = "+imei;
+            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id +" AND imei = '"+imei+"'";
             db.query(sql, (err, result) => {
                 if (err) 
                 {
