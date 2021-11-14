@@ -1297,6 +1297,7 @@ app.post('/subscribe/:device', (req, res) => {
 
 app.get('/subscribe/:device', (req, res) => {
     let id = req.query.id;
+    let imei = req.query.imei;
     $request1 = req.params.device;
     if ($request1 == 'subscribe_devices') {
         if (id != null || undefined) {
@@ -1317,6 +1318,28 @@ app.get('/subscribe/:device', (req, res) => {
 
             })
         }
+
+        if(id != (null || undefined)  && imei != (null || undefined))
+        {
+            // SELECT * FROM `subscribe_devices` WHERE id = 316366 AND imei = '869254026691561'
+            let sql = "SELECT * FROM " + $request1 + " WHERE id = " + id +" AND imei = "+imei;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+
+            })
+        }
+
         else {
             res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
         }
