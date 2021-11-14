@@ -1341,7 +1341,7 @@ app.get('/subscribe/:device', (req, res) => {
         }
 
         else {
-            res.send(JSON.stringify({ http_code: 100, http_response: "id not found!" }))
+            // res.send(JSON.stringify({ http_code: 100, http_response: "id and imei not found!" }))
         }
 
 
