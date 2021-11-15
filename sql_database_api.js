@@ -1396,7 +1396,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
         if ($request2!= (null || undefined || ""))
         {
 
-            let sql = "SELECT * FROM " + $request1 + " WHERE type = " + $request2;
+            let sql = "SELECT * FROM '" + $request1 + "' WHERE type = '" + $request2+"'";;
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
@@ -1414,7 +1414,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
                 })
         }
         else{
-            let sql = "SELECT * FROM " + $request1 ;
+            let sql = "SELECT * FROM '" + $request1+"'" ;
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
@@ -1439,7 +1439,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
         if ($request2!=(null || undefined || ""))
         {
 
-            let sql = "SELECT * FROM " + $request1 + " WHERE type = " + $request2;
+            let sql = "SELECT * FROM '" + $request1 + "' WHERE type = '" + $request2+"'";
             db.query(sql, (err, result) => {
                 if (err) 
                 {
@@ -1457,7 +1457,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
             })
         }
         else{
-            let sql = "SELECT * FROM " + $request1 ;
+            let sql = "SELECT * FROM '" + $request1 +"'";
             db.query(sql, (err, result) => {
                 if (err) 
                 {
