@@ -1383,6 +1383,104 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
 )
 
 
+// -----------------------USSD Response----------------
+app.get('/responses/:table/:type',(req,res)=>
+{
+    let requested_body = req.body;
+    // var count = Object.keys(requested_body)
+    let obj = new Object(requested_body);
+    $request1 = req.params.table;
+    $request2 = req.params.type;
+
+    if ($request1=="USSD_Response")
+
+    {
+        if ($request2!= (null || undefined || ""))
+        {
+
+            let sql = "SELECT * FROM " + $request1 + " WHERE type = " + $request2;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+                        
+                        res.send(JSON.stringify({
+                            http_code: 200
+                            , http_response: result
+                        }));
+                    }
+    
+                })
+        }
+        else{
+            let sql = "SELECT * FROM " + $request1 ;
+                db.query(sql, (err, result) => {
+                    if (err) 
+                    {
+    
+                        res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                    }
+                    else{
+                        
+                        res.send(JSON.stringify({
+                            http_code: 200
+                            , http_response: result
+                        }));
+                    }
+    
+                })
+        }
+
+    }
+
+    if ($request1 == "USSD_SMS")
+    {
+        if ($request2!=(null || undefined || ""))
+        {
+
+            let sql = "SELECT * FROM " + $request1 + " WHERE type = " + $request2;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+    
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+    
+            })
+        }
+        else{
+            let sql = "SELECT * FROM " + $request1 ;
+            db.query(sql, (err, result) => {
+                if (err) 
+                {
+
+                    res.send(JSON.stringify({ http_code: 400, http_response: 'Failed due to? ' + err }));
+                }
+                else{
+                    
+                    res.send(JSON.stringify({
+                        http_code: 200
+                        , http_response: result
+                    }));
+                }
+
+        })
+        }
+    }
+
+})
+
+
 
 
 
