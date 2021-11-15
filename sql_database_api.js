@@ -1389,6 +1389,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
 
     $request1 = req.params.table;
     $request2 = req.params.type;
+    $request3 = req.query.id;
 
     if ($request1=="USSD_Response")
 
@@ -1396,7 +1397,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
         if ($request2!= (null || undefined || ""))
         {
 
-            let sql = "SELECT * FROM " + $request1 + " WHERE type = '" + $request2+"'";;
+            let sql = "SELECT * FROM " + $request1 + " WHERE type = '" + $request2+"' AND UserId = '"+$request3+"'";
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
@@ -1414,7 +1415,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
                 })
         }
         else{
-            let sql = "SELECT * FROM " + $request1+"" ;
+            let sql = "SELECT * FROM " + $request1+" WHERE UserId = '"+$request3+"'";
                 db.query(sql, (err, result) => {
                     if (err) 
                     {
@@ -1439,7 +1440,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
         if ($request2!=(null || undefined || ""))
         {
 
-            let sql = "SELECT * FROM " + $request1 + " WHERE type = '" + $request2+"'";
+            let sql = "SELECT * FROM " + $request1 + " WHERE type = '" + $request2+"' AND UserId = '"+$request3+"'";
             db.query(sql, (err, result) => {
                 if (err) 
                 {
@@ -1457,7 +1458,7 @@ app.get('/subscribe/responses/:table/:type',(req,res)=>
             })
         }
         else{
-            let sql = "SELECT * FROM " + $request1 +"";
+            let sql = "SELECT * FROM " + $request1 +" AND UserId = '"+$request3+"'";
             db.query(sql, (err, result) => {
                 if (err) 
                 {
