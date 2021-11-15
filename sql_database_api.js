@@ -1384,7 +1384,7 @@ app.put('/subscribe/:device', (req, res) => { // Only for all update
 
 
 // -----------------------USSD Response----------------
-app.get('/responses/:table/:type',(req,res)=>
+app.get('/subscribe/responses/:table/:type',(req,res)=>
 {
     let requested_body = req.body;
     // var count = Object.keys(requested_body)
