@@ -92,232 +92,174 @@ app.set("trust proxy", 1);
 
 // -------------Updates with self contained APIs for SMS Gateway Login, Forget and Registration.....
 
-// -----------------Own Account Super Admin--------------
-app.get("/account", (req, res) => {
-  basicAuth(req, res);
-});
-
-async function basicAuth(req, res) {
-  // make authenticate path public
-
-  // check for basic auth header
-  if (
-    !req.headers.authorization ||
-    req.headers.authorization.indexOf("Basic ") === -1
-  ) {
-    return res.status(401).json({ message: "Missing Authorization Header" });
-  }
-
-  // verify auth credentials
-  const base64Credentials = req.headers.authorization.split(" ")[1];
-  const credentials = Buffer.from(base64Credentials, "base64").toString(
-    "ascii"
-  );
-  const [username, password] = credentials.split(":");
-  //   res
-  //       .status(200)
-  //       .json({ user: username, password: password});
-
-  let sql = "SELECT * FROM user_credentials WHERE account_type = 'superadmins'";
-  db.query(sql, (err, result) => {
-    if (err) {
-      // console.log(err);
-    } else {
-      // console.log(result);
-      const user = result.find(
-        (u) => u.username === username && u.password === password
-      );
-
-      if (!user) {
-        res.status(401).json({ http_code: 401, http_response: "Unauthorized" });
-      } else {
-        manageAuths(req, res, result, username);
-      }
-    }
+// -----------------Own Account All--------------
+app.get("/accounts", (req, res) => {
+   
+    basicAuth(req, res);
   });
-}
-
-function manageAuths(req, res, result, username) {
-  if (result[0].account_type == "superadmins") {
-    let data = {};
-    let currency = {};
-    let subadmin = {};
-    let reseller = {};
-
-    let sql = "SELECT * FROM login_data WHERE user_name = '" + username + "';"; // Superadmin data.
+  
+  async function basicAuth(req, res) {
+    // make authenticate path public
+  
+    // check for basic auth header
+    if (
+      !req.headers.authorization ||
+      req.headers.authorization.indexOf("Basic ") === -1
+    ) {
+      return res.status(401).json({ message: "Missing Authorization Header" });
+    }
+  
+    // verify auth credentials
+    const base64Credentials = req.headers.authorization.split(" ")[1];
+    const credentials = Buffer.from(base64Credentials, "base64").toString(
+      "ascii"
+    );
+    const [username, password] = credentials.split(":");
+    //   res
+    //       .status(200)
+    //       .json({ user: username, password: password});
+  
+    let sql = "SELECT * FROM user_credentials WHERE `username` = '"+username+"'";
+  
     db.query(sql, (err, result) => {
       if (err) {
         // console.log(err);
-        res.status(400).json({ http_code: 403, http_response: err });
       } else {
-        data = result[0];
-        let id = result[0].user_id;
-        let sql = "SELECT * FROM login_currency WHERE user_id = " + id + ";"; // Currency.
-        db.query(sql, (err, result) => {
-          if (err) {
-            // console.log(err);
-            res.status(400).json({ http_code: 400, http_response: err });
-          } else {
-            currency = result[0];
-            let sql =
-              "SELECT * FROM login_subaccount WHERE user_id = " + id + ";"; // Currency.
-            db.query(sql, (err, result) => {
-              if (err) {
-                // console.log(err);
-                res.status(400).json({ http_code: 400, http_response: err });
-              } else {
-                subadmin = result[0];
-                let sql =
-                  "SELECT * FROM login_reseller WHERE user_id = " + id + ";"; // Currency.
-                db.query(sql, (err, result) => {
-                  if (err) {
-                    // console.log(err);
-                    res
-                      .status(400)
-                      .json({ http_code: 400, http_response: err });
-                  } else {
-                    reseller = result[0];
-                    let http_resp = {
-                      ...data,
-                      _currency: currency,
-                      _subaccount: subadmin,
-                      _reseller: reseller,
-                    };
-
-                    res.status(200).json({
-                      http_code: 200,
-                      http_response: "SUCCESS",
-                      response_msg: "Here's is your account",
-                      data: http_resp,
-                    });
-                  }
-                });
-              }
-            });
-          }
-        });
+        // console.log(result);
+        const user = result.find(
+          (u) => u.username === username && u.password === password
+        );
+  
+  
+  
+        if (!user) {
+          res.status(401).json({ http_code: 401, http_response: "Unauthorized" });
+        } else {
+          console.log(result[0].account_type);
+        //  return res.status(200).json({ http_code: 401, http_response: result[0].account_type });
+  
+          manageAuths(req, res, result, username);
+        }
       }
     });
   }
-
-  if (result[0].account_type == "subadmins") {
-    let data = {};
-    let currency = {};
-    let subadmin = {};
-    let reseller = {};
-
-    let sql = "SELECT * FROM login_data WHERE user_name = '" + username + "';"; // Superadmin data.
-    db.query(sql, (err, result) => {
-      if (err) {
-        // console.log(err);
-        res.status(400).json({ http_code: 403, http_response: err });
-      } else {
-        data = result[0];
-        let id = result[0].user_id;
-        let sql = "SELECT * FROM login_currency WHERE user_id = " + id + ";"; // Currency.
-        db.query(sql, (err, result) => {
-          if (err) {
-            // console.log(err);
-            res.status(400).json({ http_code: 400, http_response: err });
-          } else {
-            currency = result[0];
-            let sql =
-              "SELECT * FROM login_subaccount WHERE user_id = " + id + ";"; // Currency.
-            db.query(sql, (err, result) => {
-              if (err) {
-                // console.log(err);
-                res.status(400).json({ http_code: 400, http_response: err });
-              } else {
-                subadmin = result[0];
-                let sql =
-                  "SELECT * FROM login_reseller WHERE user_id = " + id + ";"; // Currency.
-                db.query(sql, (err, result) => {
-                  if (err) {
-                    // console.log(err);
-                    res
-                      .status(400)
-                      .json({ http_code: 400, http_response: err });
-                  } else {
-                    reseller = result[0];
-                    let http_resp = {
-                      _subaccount: subadmin,
-                    };
-
-                    res.status(200).json({
-                      http_code: 200,
-                      http_response: "SUCCESS",
-                      response_msg: "Here's is your account",
-                      data: http_resp,
-                    });
-                  }
-                });
-              }
-            });
-          }
-        });
-      }
-    });
+  
+  function manageAuths(req, res, result, username) {
+    if (result[0].account_type == "superadmins") {
+      let data = {};
+      let currency = {};
+      let subadmin = {};
+      let reseller = {};
+  
+      let sql = "SELECT * FROM `login_data` WHERE `user_name` = '" + username + "';"; // Superadmin data.
+      db.query(sql, (err, result) => {
+        if (err) {
+          // console.log(err);
+          res.status(400).json({ http_code: 403, http_response: err });
+        } else {
+          data = result[0];
+          let id = result[0].user_id;
+          let sql = "SELECT * FROM `login_currency` WHERE `user_id` = " + id + ";"; // Currency.
+          db.query(sql, (err, result) => {
+            if (err) {
+              // console.log(err);
+              res.status(400).json({ http_code: 400, http_response: err });
+            } else {
+              currency = result[0];
+              let sql =
+                "SELECT * FROM `login_subaccount` WHERE `user_id` = " + id + ";"; // Currency.
+              db.query(sql, (err, result) => {
+                if (err) {
+                  // console.log(err);
+                  res.status(400).json({ http_code: 400, http_response: err });
+                } else {
+                  subadmin = result[0];
+                  let sql =
+                    "SELECT * FROM `login_reseller` WHERE `user_id` = " + id + ";"; // Currency.
+                  db.query(sql, (err, result) => {
+                    if (err) {
+                      // console.log(err);
+                      res
+                        .status(400)
+                        .json({ http_code: 400, http_response: err });
+                    } else {
+                      reseller = result[0];
+                      let http_resp = {
+                        ...data,
+                        _currency: currency,
+                        _subaccount: subadmin,
+                        _reseller: reseller,
+                      };
+  
+                      res.status(200).json({
+                        http_code: 200,
+                        http_response: "SUCCESS",
+                        response_msg: "Here's is your account",
+                        data: http_resp,
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  
+    if (result[0].account_type == "subadmins") {
+      let data = {};
+      let currency = {};
+      let subadmin = {};
+      let reseller = {};
+  
+      let sql = "SELECT * FROM `login_subaccount` WHERE `api_username` = '" + username + "';"; // Subadmin data.
+      db.query(sql, (err, result) => {
+        if (err) {
+          // console.log(err);
+          res.status(400).json({ http_code: 403, http_response: err });
+        } else {
+          
+                  return res.status(200).json({
+                    http_code: 200,
+                    response_code: "SUCCESS",
+                    response_msg: "Here are your data.",
+                    data: {
+                      ...result[0],
+                    },
+                  });
+                }
+              });
+       
+    }
+  
+    if (result[0].account_type == "resellers") {
+      let data = {};
+      let currency = {};
+      let subadmin = {};
+      let reseller = {};
+  
+      let sql = "SELECT * FROM `login_reseller` WHERE `api_username` = '" + username + "';"; // Subadmin data.
+      db.query(sql, (err, result) => {
+        if (err) {
+          // console.log(err);
+          res.status(400).json({ http_code: 403, http_response: err });
+        } else {
+          
+                  return res.status(200).json({
+                    http_code: 200,
+                    response_code: "SUCCESS",
+                    response_msg: "Here are your data.",
+                    data: {
+                      ...result[0],
+                    },
+                  });
+                }
+              });
+    }
   }
+  
 
-  if (result[0].account_type == "resellers") {
-    let data = {};
-    let currency = {};
-    let subadmin = {};
-    let reseller = {};
-
-    let sql = "SELECT * FROM login_data WHERE user_name = '" + username + "';"; // Superadmin data.
-    db.query(sql, (err, result) => {
-      if (err) {
-        // console.log(err);
-        res.status(400).json({ http_code: 403, http_response: err });
-      } else {
-        data = result[0];
-        let id = result[0].user_id;
-        let sql = "SELECT * FROM login_currency WHERE user_id = " + id + ";"; // Currency.
-        db.query(sql, (err, result) => {
-          if (err) {
-            // console.log(err);
-            res.status(400).json({ http_code: 400, http_response: err });
-          } else {
-            currency = result[0];
-            let sql =
-              "SELECT * FROM login_subaccount WHERE user_id = " + id + ";"; // Currency.
-            db.query(sql, (err, result) => {
-              if (err) {
-                // console.log(err);
-                res.status(400).json({ http_code: 400, http_response: err });
-              } else {
-                subadmin = result[0];
-                let sql =
-                  "SELECT * FROM login_reseller WHERE user_id = " + id + ";"; // Currency.
-                db.query(sql, (err, result) => {
-                  if (err) {
-                    // console.log(err);
-                    res
-                      .status(400)
-                      .json({ http_code: 400, http_response: err });
-                  } else {
-                    reseller = result[0];
-                    let http_resp = {
-                      _reseller: reseller,
-                    };
-
-                    res.status(200).json({
-                      http_code: 200,
-                      http_response: "SUCCESS",
-                      response_msg: "Here's is your account",
-                      data: http_resp,
-                    });
-                  }
-                });
-              }
-            });
-          }
-        });
-      }
-    });
-  }
-}
 app.post("/account", (req, res) => {
   let requested_body = req.body;
   // var count = Object.keys(requested_body)
