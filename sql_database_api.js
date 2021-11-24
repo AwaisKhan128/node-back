@@ -93,7 +93,7 @@ app.set("trust proxy", 1);
 // -------------Updates with self contained APIs for SMS Gateway Login, Forget and Registration.....
 
 // -----------------Own Account Super Admin--------------
-app.get("/accounts", (req, res) => {
+app.get("/account", (req, res) => {
   basicAuth(req, res);
 });
 
@@ -318,7 +318,7 @@ function manageAuths(req, res, result, username) {
     });
   }
 }
-app.post("/accounts", (req, res) => {
+app.post("/account", (req, res) => {
   let requested_body = req.body;
   // var count = Object.keys(requested_body)
   let obj = new Object(requested_body);
