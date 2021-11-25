@@ -187,7 +187,7 @@ app.get("/accounts", (req, res) => {
                       let mydata = {...data};
                       mydata['account_type']='superadmins'
                       let http_resp = {
-                        mydata,
+                        ...mydata,
                         _currency: currency,
                         _subaccount: subadmin,
                         _reseller: reseller,
@@ -229,7 +229,7 @@ app.get("/accounts", (req, res) => {
                     response_code: "SUCCESS",
                     response_msg: "Here are your data.",
                     data: {
-                      mydata,
+                      ...mydata,
                     },
                   });
                 }
@@ -257,7 +257,7 @@ app.get("/accounts", (req, res) => {
                     response_code: "SUCCESS",
                     response_msg: "Here are your data.",
                     data: {
-                      mydata,
+                      ...mydata,
                     },
                   });
                 }
