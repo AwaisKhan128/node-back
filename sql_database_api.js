@@ -184,8 +184,10 @@ app.get("/accounts", (req, res) => {
                         .json({ http_code: 400, http_response: err });
                     } else {
                       reseller = result[0];
+                      let mydata = {...data};
+                      mydata['account_type']='superadmins'
                       let http_resp = {
-                        ...data,
+                        mydata,
                         _currency: currency,
                         _subaccount: subadmin,
                         _reseller: reseller,
@@ -220,12 +222,14 @@ app.get("/accounts", (req, res) => {
           res.status(400).json({ http_code: 403, http_response: err });
         } else {
           
+                    let mydata = {...result[0]};
+                      mydata['account_type']='subadmins'
                   return res.status(200).json({
                     http_code: 200,
                     response_code: "SUCCESS",
                     response_msg: "Here are your data.",
                     data: {
-                      ...result[0],
+                      mydata,
                     },
                   });
                 }
@@ -246,12 +250,14 @@ app.get("/accounts", (req, res) => {
           res.status(400).json({ http_code: 403, http_response: err });
         } else {
           
+                    let mydata = {...result[0]};
+                      mydata['account_type']='resellers'
                   return res.status(200).json({
                     http_code: 200,
                     response_code: "SUCCESS",
                     response_msg: "Here are your data.",
                     data: {
-                      ...result[0],
+                      mydata,
                     },
                   });
                 }
