@@ -271,7 +271,7 @@ app.get("/accounts", (req, res) => {
     // var count = Object.keys(requested_body)
     let obj = new Object(requested_body);
   
-    if (Object.keys(obj).length < 8) {
+    if (Object.keys(obj).length < 7) {
       return res
         .status(400)
         .json({ http_code: 400, http_response: "Incomplete Body" });
