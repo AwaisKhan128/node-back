@@ -326,7 +326,7 @@ app.get("/accounts", (req, res) => {
                 let sql =
                   "INSERT INTO " +
                   "login_data" +
-                  "(user_id,user_name,user_email,user_phone,user_first_name,user_last_name,account_name,account_billing_email,account_billing_mobile,country) VALUES(" +
+                  "(user_id,user_name,email,user_phone,user_first_name,user_last_name,account_name,account_billing_email,account_billing_mobile,country) VALUES(" +
                   userid +
                   ",'" +
                   requested_body.username +
