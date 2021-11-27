@@ -266,115 +266,116 @@ app.get("/accounts", (req, res) => {
   }
   
 
-app.post("/account", (req, res) => {
-  let requested_body = req.body;
-  // var count = Object.keys(requested_body)
-  let obj = new Object(requested_body);
-
-  if (Object.keys(obj).length < 8) {
-    return res
-      .status(400)
-      .json({ http_code: 400, http_response: "Incomplete Body" });
-  } else {
-    let sql1 =
-      "SELECT * from user_credentials where username = '" +
-      requested_body.username +
-      "' OR user_phone = '" +
-      requested_body.user_phone +
-      "'";
-    db.query(sql1, (err, result) => {
-      if (err) {
-        // console.log(err);
-        return res.status(400).json({ http_code: 400, http_response: err });
-      } else {
-        if (!result.length > 0) {
-          // Saved to usercredentials
-          let userid = Number("2" + generate(5)); // Super Admin Series
-          let account_type = "superadmins";
-
-          let sql =
-            "INSERT INTO " +
-            "user_credentials" +
-            "(user_id,user_first_name,user_last_name,account_name,account_type,user_phone,username,password,country) VALUES(" +
-            userid +
-            ",'" +
-            requested_body.user_first_name +
-            "','" +
-            requested_body.user_last_name +
-            "','" +
-            requested_body.account_name +
-            "','" +
-            account_type +
-            "','" +
-            requested_body.user_phone +
-            "','" +
-            requested_body.username +
-            "','" +
-            requested_body.password +
-            "','" +
-            requested_body.country +
-            "')";
-
-          db.query(sql, (err, result) => {
-            if (err) {
-              // console.log(err);
-              return res
-                .status(400)
-                .json({ http_code: 400, http_response: err });
-            } else {
-              let sql =
-                "INSERT INTO " +
-                "login_data" +
-                "(user_id,user_name,user_email,user_phone,user_first_name,user_last_name,account_name,account_billing_email,account_billing_mobile,country) VALUES(" +
-                userid +
-                ",'" +
-                requested_body.username +
-                "','" +
-                requested_body.user_email +
-                "','" +
-                requested_body.user_phone +
-                "','" +
-                requested_body.user_first_name +
-                "','" +
-                requested_body.user_last_name +
-                "','" +
-                requested_body.account_name +
-                "','" +
-                requested_body.user_email +
-                "','" +
-                requested_body.user_phone +
-                "','" +
-                requested_body.country +
-                "')";
-
-              db.query(sql, (err, result) => {
-                if (err) {
-                  res.status(400).json({ http_code: 404, http_response: err });
-                } else {
-                  let sql =
-                    "SELECT * FROM user_credentials WHERE username = '" +
-                    requested_body.username +
-                    "'";
-                  db.query(sql, (err, result) => {
-                    if (err) {
-                      // console.log(err);
-                    } else {
-                      manageAuths(req, res, result, requested_body.username);
-                    }
-                  });
-                }
-              });
-            }
-          });
+  app.post("/accounts", (req, res) => {
+    let requested_body = req.body;
+    // var count = Object.keys(requested_body)
+    let obj = new Object(requested_body);
+  
+    if (Object.keys(obj).length < 8) {
+      return res
+        .status(400)
+        .json({ http_code: 400, http_response: "Incomplete Body" });
+    } else {
+      let sql1 =
+        "SELECT * from user_credentials where username = '" +
+        requested_body.username +
+        "' OR user_phone = '" +
+        requested_body.user_phone +
+        "'";
+      db.query(sql1, (err, result) => {
+        if (err) {
+          // console.log(err);
+          return res.status(400).json({ http_code: 400, http_response: err });
         } else {
-          return res
-            .status(400)
-            .json({ http_code: 400, http_response: "User already present" });
+          if (!result.length > 0) {
+            // Saved to usercredentials
+            let userid = Number("2" + generate(5)); // Super Admin Series
+            let account_type = "superadmins";
+            // first_name , last_name, account_name, user_phone, username, password, country
+  
+            let sql =
+              "INSERT INTO " +
+              "user_credentials" +
+              "(user_id,user_first_name,user_last_name,account_name,account_type,user_phone,username,password,country) VALUES(" +
+              userid +
+              ",'" +
+              requested_body.user_first_name +
+              "','" +
+              requested_body.user_last_name +
+              "','" +
+              requested_body.account_name +
+              "','" +
+              account_type +
+              "','" +
+              requested_body.user_phone +
+              "','" +
+              requested_body.username +
+              "','" +
+              requested_body.password +
+              "','" +
+              requested_body.country +
+              "')";
+  
+            db.query(sql, (err, result) => {
+              if (err) {
+            // first_name ,last_name, account_name, user_phone, username, password, country,user_email,
+                return res
+                  .status(400)
+                  .json({ http_code: 400, http_response: err });
+              } else {
+                let sql =
+                  "INSERT INTO " +
+                  "login_data" +
+                  "(user_id,user_name,user_email,user_phone,user_first_name,user_last_name,account_name,account_billing_email,account_billing_mobile,country) VALUES(" +
+                  userid +
+                  ",'" +
+                  requested_body.username +
+                  "','" +
+                  requested_body.user_email +
+                  "','" +
+                  requested_body.user_phone +
+                  "','" +
+                  requested_body.first_name +
+                  "','" +
+                  requested_body.last_name +
+                  "','" +
+                  requested_body.account_name +
+                  "','" +
+                  requested_body.user_email +
+                  "','" +
+                  requested_body.user_phone +
+                  "','" +
+                  requested_body.country +
+                  "')";
+  
+                db.query(sql, (err, result) => {
+                  if (err) {
+                    res.status(400).json({ http_code: 404, http_response: err });
+                  } else {
+                    let sql =
+                      "SELECT * FROM user_credentials WHERE username = '" +
+                      requested_body.username +
+                      "'";
+                    db.query(sql, (err, result) => {
+                      if (err) {
+                        // console.log(err);
+                      } else {
+                        manageAuths(req, res, result, requested_body.username);
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          } else {
+            return res
+              .status(400)
+              .json({ http_code: 400, http_response: "User already present" });
+          }
         }
-      }
-    });
-  }
-});
+      });
+    }
+  });
 // ----------------->
 // users hardcoded for simplicity, store in a db for production applications
 
