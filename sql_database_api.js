@@ -299,9 +299,9 @@ app.get("/accounts", (req, res) => {
               "(user_id,user_first_name,user_last_name,account_name,account_type,user_phone,username,password,country) VALUES(" +
               userid +
               ",'" +
-              requested_body.user_first_name +
+              requested_body.first_name +
               "','" +
-              requested_body.user_last_name +
+              requested_body.last_name +
               "','" +
               requested_body.account_name +
               "','" +
