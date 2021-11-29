@@ -1246,6 +1246,8 @@ app.post("/resellers", (req, res) => {
                   http_response: "User already present",
                 });
               }
+
+              
             }
           });
         }
