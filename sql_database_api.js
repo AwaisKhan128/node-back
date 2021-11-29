@@ -497,10 +497,12 @@ app.post("/subaccounts", (req, res) => {
                           .json({ http_code: 400, http_response: err });
                       } else {
                         userId = result[0].user_id;
+
+
                         let sql2 =
                           "INSERT INTO " +
                           "login_subaccount" +
-                          "(user_id,subaccount_id,api_username,email,phone_number,first_name,last_name,api_key) VALUES(" +
+                          "(user_id,subaccount_id,api_username,email,phone_number,first_name,last_name,api_key,access_users,access_billing,access_reporting,access_contacts,access_settings,access_sms,access_email,access_voice,access_fax,access_post,access_reseller,access_mms,share_campaigns) VALUES(" +
                           userId +
                           ",'" +
                           userid +
@@ -515,8 +517,37 @@ app.post("/subaccounts", (req, res) => {
                           "','" +
                           requested_body.last_name +
                           "','" +
-                          password +
+                          password + 
+                          "','" +
+                          ReturnIF((requested_body,'access_users')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_billing')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_reporting')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_contacts')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_settings')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_sms')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_email')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_voice')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_fax')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_post')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_reseller')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_mms')) +
+                          "','" +
+                          ReturnIF((requested_body,'share_campaigns')) +
+                          
                           "')";
+
+                          
 
                         db.query(sql2, (err, result) => {
                           if (err) {
@@ -637,6 +668,81 @@ app.get("/subaccounts", (req, res) => {
   });
 });
 
+function ReturnIF(body,value)
+{
+  if (body.hasOwnProperty(value))
+  {
+    if (value == 'access_users')
+    {
+
+      return body.access_users;
+    }
+    
+    if (value == 'access_billing')
+    {
+      return body.access_billing;
+    }
+
+    if (value == 'access_reporting')
+    {
+      return body.access_reporting;
+    }
+
+    if (value == 'access_contacts')
+    {
+      return body.access_contacts;
+    }
+
+    if (value == 'access_settings')
+    {
+      return body.access_settings;
+    }
+
+    if (value == 'access_sms')
+    {
+      return body.access_sms;
+    }
+
+    if (value == 'access_email')
+    {
+      return body.access_email;
+    }
+
+    if (value == 'access_voice')
+    {
+      return body.access_voice;
+    }
+
+    if (value == 'access_fax')
+    {
+      return body.access_fax;
+    }
+
+    if (value == 'access_post')
+    {
+      return body.access_post;
+    }
+
+    if (value == 'access_reseller')
+    {
+      return body.access_reseller;
+    }
+
+    if (value == 'access_mms')
+    {
+      return body.access_mms;
+    }
+
+    if (value == 'share_campaigns')
+    {
+      return body.share_campaigns;
+    }
+  }
+  else
+  {
+    return 1
+  }
+}
 
 
 
