@@ -1154,7 +1154,7 @@ app.post("/resellers", (req, res) => {
                     let sqlQ =
                       "SELECT * from user_credentials where username = '" +
                       username +
-                      "' AND account_type = 'resellers'";
+                      "' AND account_type = 'superadmins'";
                     db.query(sqlQ, (err, result) => {
                       if (err) {
                         return res
@@ -1247,7 +1247,7 @@ app.post("/resellers", (req, res) => {
                 });
               }
 
-              
+
             }
           });
         }
