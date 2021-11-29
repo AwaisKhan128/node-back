@@ -1208,6 +1208,9 @@ app.post("/resellers", (req, res) => {
                           
                           "')";
 
+
+
+                          
                         db.query(sql2, (err, result) => {
                           if (err) {
                             return res
