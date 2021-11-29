@@ -1165,7 +1165,7 @@ app.post("/resellers", (req, res) => {
                         let sql2 =
                           "INSERT INTO " +
                           "login_reseller" +
-                          "(user_id,reseller_id,api_username,email,phone_number,first_name,last_name,api_key,access_users,access_billing,access_reporting,access_contacts,access_settings,access_sms,access_email,access_voice,access_fax,access_post,access_reseller,access_mms,share_campaigns) VALUES(" +
+                          "(user_id,reseller_id,api_username,email,phone_number,first_name,last_name,api_key,access_users,access_billing,access_reporting,access_contacts,access_settings,access_sms,access_email,access_voice,access_fax,access_post,access_mms,share_campaigns) VALUES(" +
                           userId +
                           ",'" +
                           userid +
@@ -1201,8 +1201,6 @@ app.post("/resellers", (req, res) => {
                           ReturnIF((requested_body,'access_fax')) +
                           "','" +
                           ReturnIF((requested_body,'access_post')) +
-                          "','" +
-                          ReturnIF((requested_body,'access_reseller')) +
                           "','" +
                           ReturnIF((requested_body,'access_mms')) +
                           "','" +
