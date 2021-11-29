@@ -1243,7 +1243,7 @@ app.post("/resellers", (req, res) => {
               } else {
                 return res.status(400).json({
                   http_code: 400,
-                  http_response: "Subuser already present",
+                  http_response: "User already present",
                 });
               }
             }
