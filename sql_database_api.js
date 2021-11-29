@@ -1165,7 +1165,7 @@ app.post("/resellers", (req, res) => {
                         let sql2 =
                           "INSERT INTO " +
                           "login_reseller" +
-                          "(user_id,subaccount_id,api_username,email,phone_number,first_name,last_name,api_key) VALUES(" +
+                          "(user_id,reseller_id,api_username,email,phone_number,first_name,last_name,api_key,access_users,access_billing,access_reporting,access_contacts,access_settings,access_sms,access_email,access_voice,access_fax,access_post,access_reseller,access_mms,share_campaigns) VALUES(" +
                           userId +
                           ",'" +
                           userid +
@@ -1180,7 +1180,34 @@ app.post("/resellers", (req, res) => {
                           "','" +
                           requested_body.last_name +
                           "','" +
-                          password +
+                          password + 
+                          "','" +
+                          ReturnIF((requested_body,'access_users')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_billing')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_reporting')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_contacts')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_settings')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_sms')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_email')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_voice')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_fax')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_post')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_reseller')) +
+                          "','" +
+                          ReturnIF((requested_body,'access_mms')) +
+                          "','" +
+                          ReturnIF((requested_body,'share_campaigns')) +
+                          
                           "')";
 
                         db.query(sql2, (err, result) => {
