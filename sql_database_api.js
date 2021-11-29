@@ -1022,7 +1022,7 @@ app.delete("/subaccounts/:subaccount_id", (req, res) => {
                     .json({ http_code: 400, http_response: err });
                 } else {
                   {
-                    return res.status(400).json({
+                    return res.status(200).json({
                       http_code: 200,
                       response_code: "SUCCESS",
                       response_msg: "Subaccount has been deleted",
