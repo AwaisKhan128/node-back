@@ -3003,12 +3003,15 @@ app.post("/subscribe/:device", (req, res) => {
 
   if ($request1 == "subscribe_devices") {
     if (Object.keys(obj).length < 5) {
-      res.send(
-        JSON.stringify({
-          http_code: 100,
-          http_response: "Error body incomplete",
-        })
-      );
+
+      return res.status(400).json({
+        http_code: 400,
+        http_response: "Error Body incomplete"
+        
+      });
+
+      
+     
     } else if (Object.keys(obj).length === 7) {
       {
         let sql =
@@ -3032,27 +3035,26 @@ app.post("/subscribe/:device", (req, res) => {
         db.query(sql, (err, result) => {
           if (err) {
             // console.log(err);
-            res.send(
-              JSON.stringify({
-                http_code: 400,
-                http_response: "Failed due to " + err,
-              })
-            );
+            return res.status(400).json({
+              http_code: 400,
+              http_response: "Failed due to " + err
+              
+            });
+
+
           } else {
             // console.log(result);
-
-            res.send(JSON.stringify({ http_code: 200, http_response: result }));
+            return res.status(200)
+            .json({ http_code: 200, http_response: result });
           }
         });
       }
     }
   } else {
-    res.send(
-      JSON.stringify({
-        http_code: 100,
-        http_response: "Path not found? " + $request1,
-      })
-    );
+
+    return res.status(100)
+    .json({ http_code: 100
+      , http_response:  "Path not found? " + $request1 });
   }
 });
 
@@ -3779,6 +3781,7 @@ app.post("/gatewaysendmail/:email/:user/:api", (req, res) => {
 
 // ------Webhooks----
 const { EventEmitter } = require("stream");
+const { json } = require("body-parser");
 
 // const { Server } = require("./lib/socket.io");
 // const emit = new Server();
